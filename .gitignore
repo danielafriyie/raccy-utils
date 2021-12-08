@@ -1,0 +1,18 @@
+# Created by .ignore support plugin (hsz.mobi)
+bunny.py
+env
+.env
+__pycache__
+.idea
+.vscode
+config.json
+/__pycache__/
+config.txt
+*.log
+*.sqlite3
+*.sqlite3-journal
+env.bat
+*.sqlite
+*.exe
+*.wav
+logs

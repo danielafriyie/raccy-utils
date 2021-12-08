@@ -1,0 +1,4 @@
+- selenium
+
+- Add option to change logger parameters
+- Add comment feature to TextConfig class
