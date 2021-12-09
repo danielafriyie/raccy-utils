@@ -16,3 +16,4 @@ env.bat
 *.exe
 *.wav
 logs
+foo.txt
