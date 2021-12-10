@@ -80,7 +80,7 @@ class JsonConfig(BaseConfig):
 
     def save(self, filename='config.json'):
         with open(filename, 'w') as f:
-            json.dump(self._config, f)
+            json.dump(self._config, f, indent=4)
 
 
 class TextConfig(BaseConfig):
