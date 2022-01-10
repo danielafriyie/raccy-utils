@@ -74,11 +74,11 @@ class JsonConfig(BaseConfig):
     CONFIG_PATH = 'config.json'
 
     def load_config(self):
-        with open(self.CONFIG_PATH) as f:
+        with open(self.CONFIG_PATH, encoding='utf-8') as f:
             config = json.load(f)
         return config
 
-    def save(self, filename='config.json'):
+    def save(self, filename='config.json', encoding='utf-8'):
         with open(filename, 'w') as f:
             json.dump(self._config, f, indent=4)
 
@@ -98,7 +98,7 @@ class TextConfig(BaseConfig):
         return config
 
     def save(self, filename='config.txt'):
-        with open(filename, 'w') as f:
+        with open(filename, 'w', encoding='utf-8') as f:
             len_config = len(self._config) - 1
             for idx, key in enumerate(self._config):
                 f.write(f"{key}={self._config[key]}")

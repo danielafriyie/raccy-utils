@@ -34,7 +34,7 @@ def get_data(fn, split=False, split_char=None):
     >>>print(data)
     [1, 2, 3, 4]
     """
-    with open(fn) as f:
+    with open(fn, encoding='utf-8') as f:
         data = f.read()
         if split:
             if split_char:
