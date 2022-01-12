@@ -42,7 +42,7 @@ class Logger:
         _logger.setLevel(level=logging.DEBUG)
 
         formatter = logging.Formatter(self._fmt)
-        file_handler = logging.FileHandler(self._get_log_file())
+        file_handler = logging.FileHandler(self._get_log_file(), encoding='utf-8')
         file_handler.setFormatter(formatter)
         file_handler.setLevel(logging.INFO)
 
