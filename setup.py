@@ -19,9 +19,7 @@ from ru import __version__
 with open('README.md', 'r', encoding='utf-8') as f:
     long_des = f.read()
 
-install_requires = [
-    'selenium>=3.141.0'
-]
+install_requires = []
 
 include = (
     'ru', 'ru.*'

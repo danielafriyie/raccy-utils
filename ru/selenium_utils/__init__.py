@@ -16,14 +16,17 @@ limitations under the License.
 import random as rd
 import time
 
-from selenium.webdriver.support import expected_conditions as EC
-from selenium.webdriver.common.action_chains import ActionChains
-from selenium.webdriver.support.wait import WebDriverWait
-from selenium.webdriver.common.by import By
-from selenium.common.exceptions import (
-    TimeoutException, WebDriverException, ElementClickInterceptedException,
-    StaleElementReferenceException
-)
+try:
+    from selenium.webdriver.support import expected_conditions as EC
+    from selenium.webdriver.common.action_chains import ActionChains
+    from selenium.webdriver.support.wait import WebDriverWait
+    from selenium.webdriver.common.by import By
+    from selenium.common.exceptions import (
+        TimeoutException, WebDriverException, ElementClickInterceptedException,
+        StaleElementReferenceException
+    )
+except IndexError:
+    print("It seems you don't have selenium installed. Install it before using this module!\npip install selenium")
 
 
 def window_scroll_to(driver, loc):

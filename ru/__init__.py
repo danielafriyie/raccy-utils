@@ -19,7 +19,7 @@ from .selenium_utils import (
     window_scroll_to, scroll_into_view, driver_wait, driver_or_js_click, manual_entry, random_delay
 )
 
-__version__ = '0.1.3'
+__version__ = '0.1.4'
 __all__ = [
     'JsonConfig',
     'TextConfig',
