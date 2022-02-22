@@ -23,9 +23,9 @@ class BaseConfig:
     """"
     Base config class for all config classes
     """
-    CONFIG_PATH = None
 
-    def __init__(self):
+    def __init__(self, config_path):
+        self.CONFIG_PATH = config_path
         self._config = self.load()
 
     @property
@@ -71,7 +71,9 @@ class BaseConfig:
 
 
 class JsonConfig(BaseConfig):
-    CONFIG_PATH = 'config.json'
+
+    def __init__(self, config_path='config.json'):
+        super().__init__(config_path)
 
     def load_config(self):
         with open(self.CONFIG_PATH, encoding='utf-8') as f:
@@ -84,7 +86,9 @@ class JsonConfig(BaseConfig):
 
 
 class TextConfig(BaseConfig):
-    CONFIG_PATH = 'config.txt'
+
+    def __init__(self, config_path='config.txt'):
+        super().__init__(config_path)
 
     def load_config(self):
         config = {}
