@@ -51,7 +51,7 @@ def driver_or_js_click(driver, xpath, secs=5, condition=EC.element_to_be_clickab
     try:
         elm = driver_wait(driver, xpath, secs=secs, condition=condition)
         ActionChains(driver).move_to_element(elm).click().perform()
-    except (TimeoutException, ElementClickInterceptedException, StaleElementReferenceException):
+    except WebDriverException:
         elm = driver.find_element_by_xpath(xpath)
         try:
             ActionChains(driver).move_to_element(elm).click().perform()
