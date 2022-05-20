@@ -40,16 +40,26 @@ class BaseConfig:
     def load_config(self, *args, **kwargs):
         pass
 
+    @staticmethod
+    def _cast(item, cast):
+        if cast is bool:
+            return eval(item.strip().capitalize())
+        return cast(item.strip())
+
     def get(self, item, default=None, cast=None):
         try:
             val = self._config[item]
             if cast:
-                if cast is bool:
-                    return eval(val.strip().capitalize())
-                return cast(val.strip())
+                return self._cast(val, cast)
             return val
         except KeyError:
             return default
+
+    def get_as_tupple(self, item, cast=None):
+        items = self[item].split(',')
+        if cast is None:
+            return tuple(items)
+        return tuple(self._cast(val, cast) for val in items)
 
     def load(self):
         try:
