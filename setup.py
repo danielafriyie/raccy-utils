@@ -19,7 +19,7 @@ from ru import __version__
 with open('README.md', 'r', encoding='utf-8') as f:
     long_des = f.read()
 
-install_requires = []
+install_requires = ['colorama']
 
 include = (
     'ru', 'ru.*'
@@ -41,6 +41,7 @@ setuptools.setup(
         'Programming Language :: Python :: 3.6',
         'Programming Language :: Python :: 3.7',
         'Programming Language :: Python :: 3.8',
+        'Programming Language :: Python :: 3.9',
         "Intended Audience :: Developers",
         "Operating System :: OS Independent",
         'Topic :: Software Development :: Libraries :: Application Frameworks',

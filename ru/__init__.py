@@ -14,21 +14,13 @@ See the License for the specific language governing permissions and
 limitations under the License.
 """
 from .config import JsonConfig, TextConfig
-from .logger import logger
-from .selenium_utils import (
-    window_scroll_to, scroll_into_view, driver_wait, driver_or_js_click, manual_entry, random_delay
-)
+from .logger import logger, ColorPrint, AsyncColorPrint
 
-__version__ = '0.1.5'
-__all__ = [
-    'JsonConfig',
-    'TextConfig',
-    'logger',
-    'window_scroll_to',
-    'scroll_into_view',
-    'driver_wait',
-    'driver_or_js_click',
-    'manual_entry',
-    'random_delay',
-    '__version__'
-]
+__version__ = '0.2.0'
+
+__all__ = ['JsonConfig',
+           'TextConfig',
+           'logger',
+           'ColorPrint',
+           'AsyncColorPrint',
+           '__version__']

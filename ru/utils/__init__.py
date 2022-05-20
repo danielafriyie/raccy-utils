@@ -24,11 +24,12 @@ def abstractmethod(func):
     return wrap
 
 
-def get_data(fn, split=False, split_char=None):
+def get_data(fn, split=False, split_char=None, filter_blanks=False):
     """
     :param fn: filename to open
     :param split: if you want to split the data read
     :param split_char: character you want to split the data on
+    :param filter_blanks: remove empty strings if split=True
     Example:
     >>>data = get_data('file.txt', split=True, split_char=",")
     >>>print(data)
@@ -39,4 +40,6 @@ def get_data(fn, split=False, split_char=None):
         if split:
             if split_char:
                 data = data.split(split_char)
+                if filter_blanks:
+                    data = [s.strip() for s in data if s.strip() != '']
     return data

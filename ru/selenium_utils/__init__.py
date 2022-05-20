@@ -15,9 +15,10 @@ limitations under the License.
 """
 import random as rd
 import time
+import warnings
 
 try:
-    from selenium.webdriver.support import expected_conditions as EC
+    from selenium.webdriver.support import expected_conditions as ec
     from selenium.webdriver.common.action_chains import ActionChains
     from selenium.webdriver.support.wait import WebDriverWait
     from selenium.webdriver.common.by import By
@@ -25,8 +26,9 @@ try:
         TimeoutException, WebDriverException, ElementClickInterceptedException,
         StaleElementReferenceException
     )
-except IndexError:
-    print("It seems you don't have selenium installed. Install it before using this module!\npip install selenium")
+except ImportError:
+    warnings.warn(
+        "It seems you don't have selenium installed. Install it before using this module!\npip install selenium")
 
 
 def window_scroll_to(driver, loc):
@@ -37,7 +39,7 @@ def scroll_into_view(driver, element, offset=200):
     window_scroll_to(driver, element.location['y'] - offset)
 
 
-def driver_wait(driver, xpath, secs=10, condition=EC.element_to_be_clickable, action=None, *args, **kwargs):
+def driver_wait(driver, xpath, secs=10, condition=ec.element_to_be_clickable, action=None, *args, **kwargs):
     wait = WebDriverWait(driver=driver, timeout=secs)
     element = wait.until(condition((By.XPATH, xpath)))
     if action:
@@ -47,7 +49,7 @@ def driver_wait(driver, xpath, secs=10, condition=EC.element_to_be_clickable, ac
     return element
 
 
-def driver_or_js_click(driver, xpath, secs=5, condition=EC.element_to_be_clickable):
+def driver_or_js_click(driver, xpath, secs=5, condition=ec.element_to_be_clickable):
     try:
         elm = driver_wait(driver, xpath, secs=secs, condition=condition)
         ActionChains(driver).move_to_element(elm).click().perform()
@@ -59,7 +61,7 @@ def driver_or_js_click(driver, xpath, secs=5, condition=EC.element_to_be_clickab
             driver.execute_script("arguments[0].click()", elm)
 
 
-def manual_entry(driver, xpath, text, secs=10, condition=EC.element_to_be_clickable, *args, **kwargs):
+def manual_entry(driver, xpath, text, secs=10, condition=ec.element_to_be_clickable, *args, **kwargs):
     driver_wait(
         driver,
         xpath,

@@ -16,8 +16,18 @@ limitations under the License.
 import logging
 import pathlib
 import os
+import asyncio
+import threading
+import typing
+
+from colorama import Fore
 
 from ru.utils import abstractmethod
+
+
+def logger(name: str = None, fmt: str = None, filename: str = None):
+    lg = Logger(name, fmt, filename)
+    return lg()
 
 
 class Logger:
@@ -70,6 +80,45 @@ class Logger:
             return _logger
 
 
-def logger(name: str = None, fmt: str = None, filename: str = None):
-    lg = Logger(name, fmt, filename)
-    return lg()
+class BaseColorPrint:
+    mutex: typing.Union[asyncio.Lock, threading.Lock, threading.RLock] = None
+
+    def _print(self, text, color):
+        with self.mutex:
+            print(color + text)
+
+    def info(self, text, color=Fore.MAGENTA):
+        self._print(text, color)
+
+    def warning(self, text, color=Fore.YELLOW):
+        self._print(text, color)
+
+    def success(self, text, color=Fore.GREEN):
+        self._print(text, color)
+
+    def error(self, text, color=Fore.RED):
+        self._print(text, color)
+
+
+class ColorPrint(BaseColorPrint):
+    mutex = threading.Lock()
+
+
+class AsyncColorPrint(BaseColorPrint):
+    mutex = asyncio.Lock()
+
+    async def _print(self, text, color):
+        async with self.mutex:
+            print(color + text)
+
+    async def info(self, text, color=Fore.MAGENTA):
+        await self._print(text, color)
+
+    async def warning(self, text, color=Fore.YELLOW):
+        await self._print(text, color)
+
+    async def success(self, text, color=Fore.GREEN):
+        await self._print(text, color)
+
+    async def error(self, text, color=Fore.RED):
+        await self._print(text, color)
