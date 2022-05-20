@@ -14,6 +14,7 @@ See the License for the specific language governing permissions and
 limitations under the License.
 """
 import json
+import threading
 
 from ru.utils import abstractmethod, get_data
 from ru.exceptions.exceptions import ConfigKeyError, ConfigFileNotFoundError
@@ -27,10 +28,12 @@ class BaseConfig:
     def __init__(self, config_path):
         self.CONFIG_PATH = config_path
         self._config = self.load()
+        self._mutex = threading.RLock()
 
     @property
     def config(self):
-        return self._config
+        with self._mutex:
+            return self._config
 
     @abstractmethod
     def save(self, *args, **kwargs):
@@ -47,19 +50,21 @@ class BaseConfig:
         return cast(item.strip())
 
     def get(self, item, default=None, cast=None):
-        try:
-            val = self._config[item]
-            if cast:
-                return self._cast(val, cast)
-            return val
-        except KeyError:
-            return default
+        with self._mutex:
+            try:
+                val = self._config[item]
+                if cast:
+                    return self._cast(val, cast)
+                return val
+            except KeyError:
+                return default
 
     def get_as_tupple(self, item, cast=None):
-        items = self[item].split(',')
-        if cast is None:
-            return tuple(items)
-        return tuple(self._cast(val, cast) for val in items)
+        with self._mutex:
+            items = self._config[item].split(',')
+            if cast is None:
+                return tuple(items)
+            return tuple(self._cast(val, cast) for val in items)
 
     def load(self):
         try:
@@ -68,17 +73,19 @@ class BaseConfig:
             raise ConfigFileNotFoundError(f"{self.__class__.__name__}: Config file '{self.CONFIG_PATH}' not found!")
 
     def __getitem__(self, item):
-        try:
-            if isinstance(item, list):
-                items = [self._config[key] for key in item]
-                return items
-            else:
-                return self._config[item]
-        except KeyError:
-            raise ConfigKeyError(f"{item}")
+        with self._mutex:
+            try:
+                if isinstance(item, list):
+                    items = [self._config[key] for key in item]
+                    return items
+                else:
+                    return self._config[item]
+            except KeyError:
+                raise ConfigKeyError(f"{item}")
 
     def __setitem__(self, key, value):
-        self._config[key] = value
+        with self._mutex:
+            self._config[key] = value
 
     def __repr__(self):
         return str(self._config)
