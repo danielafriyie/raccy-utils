@@ -1,3 +1,1 @@
-- selenium
-
 - Add comment feature to TextConfig class
