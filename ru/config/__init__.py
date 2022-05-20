@@ -59,7 +59,11 @@ class BaseConfig:
 
     def __getitem__(self, item):
         try:
-            return self._config[item]
+            if isinstance(item, list):
+                items = [self._config[key] for key in item]
+                return items
+            else:
+                return self._config[item]
         except KeyError:
             raise ConfigKeyError(f"{item}")
 
