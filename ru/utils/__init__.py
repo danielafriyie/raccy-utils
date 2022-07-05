@@ -13,6 +13,7 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
 """
+import os
 
 
 def abstractmethod(func):
@@ -43,3 +44,27 @@ def get_data(fn, split=False, split_char=None, filter_blanks=False):
                 if filter_blanks:
                     data = [s.strip() for s in data if s.strip() != '']
     return data
+
+
+def mk_dir(*paths):
+    for p in paths:
+        if not os.path.exists(p):
+            os.mkdir(p)
+
+
+def get_filename(name, path, is_folder=False):
+    files = os.listdir(path)
+    split = name.split('.')
+    if is_folder is False:
+        ext = f".{split.pop(-1)}"
+        fn = ''.join(split)
+    else:
+        fn = name
+        ext = ''
+    counter = 1
+    while True:
+        if name not in files:
+            files.append(name)
+            return os.path.join(path, name)
+        name = f"{fn}({counter}){ext}"
+        counter += 1
