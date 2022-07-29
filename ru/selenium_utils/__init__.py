@@ -74,7 +74,12 @@ def find_element_by_id(driver, id, secs=10, condition=ec.element_to_be_clickable
     return driver_wait(driver, id, By.ID, secs, condition, action, *args, **kwargs)
 
 
-def find_element_by_link_text(driver, text, secs=10, condition=ec.element_to_be_clickable, action=None, *args,
+def find_element_by_link_text(driver,
+                              text,
+                              secs=10,
+                              condition=ec.element_to_be_clickable,
+                              action=None,
+                              *args,
                               **kwargs):
     return driver_wait(driver, text, By.LINK_TEXT, secs, condition, action, *args, **kwargs)
 
