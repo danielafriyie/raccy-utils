@@ -14,6 +14,9 @@ See the License for the specific language governing permissions and
 limitations under the License.
 """
 import os
+import shutil
+import errno
+import stat
 
 
 def abstractmethod(func):
@@ -68,3 +71,19 @@ def get_filename(name, path, is_folder=False):
             return os.path.join(path, name)
         name = f"{fn}({counter}){ext}"
         counter += 1
+
+
+def handle_remove_read_only(func, path, exc):
+    excvalue = exc[1]
+    if func in (os.rmdir, os.remove) and excvalue.errno == errno.EACCES:
+        os.chmod(path, stat.S_IRWXU | stat.S_IRWXG | stat.S_IRWXO)  # 0777
+        func(path)
+    else:
+        raise
+
+
+def remove_dir(p):
+    try:
+        shutil.rmtree(p, ignore_errors=False, onerror=handle_remove_read_only)
+    except:
+        pass
