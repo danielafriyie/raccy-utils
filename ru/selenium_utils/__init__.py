@@ -46,13 +46,13 @@ def scroll_into_view_js(driver, element):
     driver.execute_script("arguments[0].scrollIntoView();", element)
 
 
-def driver_wait(driver,
-                locator,
-                by,
-                secs=10,
-                condition=ec.element_to_be_clickable,
-                action=None,
-                *args, **kwargs):
+def _driver_wait(driver,
+                 locator,
+                 by,
+                 secs=10,
+                 condition=ec.element_to_be_clickable,
+                 action=None,
+                 *args, **kwargs):
     wait = WebDriverWait(driver=driver, timeout=secs)
     element = wait.until(condition((by, locator)))
     if action:
@@ -63,15 +63,15 @@ def driver_wait(driver,
 
 
 def find_element_by_xpath(driver, xpath, secs=10, condition=ec.element_to_be_clickable, action=None, *args, **kwargs):
-    return driver_wait(driver, xpath, By.XPATH, secs, condition, action, *args, **kwargs)
+    return _driver_wait(driver, xpath, By.XPATH, secs, condition, action, *args, **kwargs)
 
 
 def find_element_by_css(driver, selector, secs=10, condition=ec.element_to_be_clickable, action=None, *args, **kwargs):
-    return driver_wait(driver, selector, By.CSS_SELECTOR, secs, condition, action, *args, **kwargs)
+    return _driver_wait(driver, selector, By.CSS_SELECTOR, secs, condition, action, *args, **kwargs)
 
 
 def find_element_by_id(driver, id, secs=10, condition=ec.element_to_be_clickable, action=None, *args, **kwargs):
-    return driver_wait(driver, id, By.ID, secs, condition, action, *args, **kwargs)
+    return _driver_wait(driver, id, By.ID, secs, condition, action, *args, **kwargs)
 
 
 def find_element_by_link_text(driver,
@@ -81,7 +81,7 @@ def find_element_by_link_text(driver,
                               action=None,
                               *args,
                               **kwargs):
-    return driver_wait(driver, text, By.LINK_TEXT, secs, condition, action, *args, **kwargs)
+    return _driver_wait(driver, text, By.LINK_TEXT, secs, condition, action, *args, **kwargs)
 
 
 def driver_or_js_click(driver, xpath, secs=5, condition=ec.element_to_be_clickable):
@@ -137,3 +137,6 @@ def random_delay(a=1, b=3):
     precision = delay / (a + b)
     sleep_time = delay + precision
     time.sleep(sleep_time)
+
+
+driver_wait = find_element_by_xpath
