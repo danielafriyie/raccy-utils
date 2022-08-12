@@ -17,6 +17,9 @@ import os
 import shutil
 import errno
 import stat
+import threading
+
+_MUTEX = threading.Lock()
 
 
 def abstractmethod(func):
@@ -50,27 +53,29 @@ def get_data(fn, split=False, split_char=None, filter_blanks=False):
 
 
 def mk_dir(*paths):
-    for p in paths:
-        if not os.path.exists(p):
-            os.mkdir(p)
+    with _MUTEX:
+        for p in paths:
+            if not os.path.exists(p):
+                os.mkdir(p)
 
 
 def get_filename(name, path, is_folder=False):
-    files = os.listdir(path)
-    split = name.split('.')
-    if is_folder is False:
-        ext = f".{split.pop(-1)}"
-        fn = ''.join(split)
-    else:
-        fn = name
-        ext = ''
-    counter = 1
-    while True:
-        if name not in files:
-            files.append(name)
-            return os.path.join(path, name)
-        name = f"{fn}({counter}){ext}"
-        counter += 1
+    with _MUTEX:
+        files = os.listdir(path)
+        split = name.split('.')
+        if is_folder is False:
+            ext = f".{split.pop(-1)}"
+            fn = ''.join(split)
+        else:
+            fn = name
+            ext = ''
+        counter = 1
+        while True:
+            if name not in files:
+                files.append(name)
+                return os.path.join(path, name)
+            name = f"{fn}({counter}){ext}"
+            counter += 1
 
 
 def handle_remove_read_only(func, path, exc):
@@ -83,7 +88,8 @@ def handle_remove_read_only(func, path, exc):
 
 
 def remove_dir(p):
-    try:
-        shutil.rmtree(p, ignore_errors=False, onerror=handle_remove_read_only)
-    except:
-        pass
+    with _MUTEX:
+        try:
+            shutil.rmtree(p, ignore_errors=False, onerror=handle_remove_read_only)
+        except:
+            pass
