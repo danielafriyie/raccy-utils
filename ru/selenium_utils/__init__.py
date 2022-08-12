@@ -31,7 +31,11 @@ try:
 except ImportError:
     warnings.warn("It seems you don't have selenium installed. "
                   "Install it before using this module!\npip install selenium")
-import pyperclip
+try:
+    import pyperclip
+except ImportError:
+    warnings.warn("It seems you don't have selenium installed. "
+                  "Install it before using this module!\npip install selenium")
 
 
 def window_scroll_to(driver, loc):
