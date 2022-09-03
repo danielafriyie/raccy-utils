@@ -30,12 +30,12 @@ try:
     )
 except ImportError:
     warnings.warn("It seems you don't have selenium installed. "
-                  "Install it before using this module!\npip install selenium")
+                  "Install it before using this module!\npip3 install selenium")
 try:
     import pyperclip
 except ImportError:
-    warnings.warn("It seems you don't have selenium installed. "
-                  "Install it before using this module!\npip install selenium")
+    warnings.warn("It seems you don't have pyperclip installed. "
+                  "Install it before using this module!\npip3 install pyperclip")
 
 
 def window_scroll_to(driver, loc):
@@ -101,6 +101,9 @@ def driver_or_js_click(driver, xpath, secs=5, condition=ec.element_to_be_clickab
 
 
 def manual_entry(driver, xpath, text, secs=10, condition=ec.element_to_be_clickable, sleep_time=0.05, *args, **kwargs):
+    if not isinstance(sleep_time, int) or not isinstance(sleep_time, float):
+        args += (sleep_time,)
+        sleep_time = 0.05
     elm = find_element_by_xpath(driver, xpath, secs=secs, condition=condition)
     ActionChains(driver).move_to_element(elm).perform()
     elm.clear()
