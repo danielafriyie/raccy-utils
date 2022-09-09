@@ -101,7 +101,7 @@ def driver_or_js_click(driver, xpath, secs=5, condition=ec.element_to_be_clickab
 
 
 def manual_entry(driver, xpath, text, secs=10, condition=ec.element_to_be_clickable, sleep_time=0.05, *args, **kwargs):
-    if not isinstance(sleep_time, int) or not isinstance(sleep_time, float):
+    if not isinstance(sleep_time, int) and not isinstance(sleep_time, float):
         args += (sleep_time,)
         sleep_time = 0.05
     elm = find_element_by_xpath(driver, xpath, secs=secs, condition=condition)
@@ -147,3 +147,4 @@ def random_delay(a=1, b=3):
 
 
 driver_wait = find_element_by_xpath
+manual_entry('', '', 'ffff', secs=10)
