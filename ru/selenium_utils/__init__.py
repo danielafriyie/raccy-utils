@@ -147,4 +147,3 @@ def random_delay(a=1, b=3):
 
 
 driver_wait = find_element_by_xpath
-manual_entry('', '', 'ffff', secs=10)
