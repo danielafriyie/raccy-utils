@@ -24,7 +24,7 @@ from ru.annotations import Path
 
 _MUTEX: threading.Lock = threading.Lock()
 
-Func = typing.Callable[[...], typing.Any]
+Func = typing.Callable[..., typing.Any]
 
 
 def abstractmethod(func: Func) -> Func:
