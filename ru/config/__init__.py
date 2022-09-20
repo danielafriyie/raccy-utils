@@ -22,7 +22,7 @@ from ru.utils import abstractmethod, get_data
 from ru.exceptions.exceptions import ConfigKeyError, ConfigFileNotFoundError
 
 Cast = typing.Callable[[typing.Any], typing.Any]
-Path = typing.Union[str, os.PathLike]
+Path = typing.Union[str, bytes, os.PathLike[str], os.PathLike[bytes]]
 Config = typing.Dict[str, str]
 
 
