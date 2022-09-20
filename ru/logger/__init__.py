@@ -22,41 +22,50 @@ import typing
 
 from colorama import Fore
 
-from ru.utils import abstractmethod
+from ru.annotations import Path
 
 
-def logger(name: str = None, fmt: str = None, filename: str = None):
-    lg = Logger(name, fmt, filename)
+def logger(
+        name: typing.Optional[str] = None,
+        fmt: typing.Optional[str] = None,
+        filename: typing.Optional[Path] = None
+) -> logging.Logger:
+    lg: Logger = Logger(name, fmt, filename)
     return lg()
 
 
 class Logger:
-    __loggers = {}
+    __loggers: typing.Dict[str, logging.Logger] = {}
 
-    def __init__(self, name: str = None, fmt: str = None, filename: str = None):
+    def __init__(
+            self,
+            name: typing.Optional[str] = None,
+            fmt: typing.Optional[str] = None,
+            filename: typing.Optional[Path] = None
+    ) -> None:
         self._name = name if name else __name__
         self._fmt = fmt if fmt else '%(asctime)s:%(levelname)s:%(message)s'
         self._filename = filename
-        self._root_path = pathlib.Path('.').absolute()
+        self._root_path: Path = pathlib.Path('.').absolute()
 
-    def _get_log_file(self):
-        fn = self._filename if self._filename else 'log'
-        log_path = os.path.join(self._root_path, 'logs')
-        log_file = os.path.join(log_path, f'{fn}.log')
+    def _get_log_file(self) -> Path:
+        fn: Path = self._filename if self._filename else 'log'
+        log_path: Path = os.path.join(self._root_path, 'logs')
+        log_file: Path = os.path.join(log_path, f'{fn}.log')
         if not os.path.exists(log_path):
             os.mkdir(os.path.join(log_path))
         return log_file
 
-    def _create_logger(self):
-        _logger = logging.getLogger(self._name)
+    def _create_logger(self) -> logging.Logger:
+        _logger: logging.Logger = logging.getLogger(self._name)
         _logger.setLevel(level=logging.DEBUG)
 
-        formatter = logging.Formatter(self._fmt)
-        file_handler = logging.FileHandler(self._get_log_file(), encoding='utf-8')
+        formatter: logging.Formatter = logging.Formatter(self._fmt)
+        file_handler: logging.FileHandler = logging.FileHandler(self._get_log_file(), encoding='utf-8')
         file_handler.setFormatter(formatter)
         file_handler.setLevel(logging.INFO)
 
-        stream_handler = logging.StreamHandler()
+        stream_handler: logging.StreamHandler = logging.StreamHandler()
         stream_handler.setFormatter(formatter)
         stream_handler.setLevel(logging.INFO)
 
@@ -65,60 +74,54 @@ class Logger:
 
         return _logger
 
-    @abstractmethod
-    def _log_file_manager(self):
-        """
-        check if the log file size is more than 10mb then deletes it
-        """
-
-    def __call__(self):
+    def __call__(self) -> logging.Logger:
         if self._name in self.__loggers:
-            return self.__loggers.get(self._name)
+            return self.__loggers[self._name]
         else:
-            _logger = self._create_logger()
+            _logger: logging.Logger = self._create_logger()
             self.__loggers[self._name] = _logger
             return _logger
 
 
 class BaseColorPrint:
-    mutex: typing.Union[asyncio.Lock, threading.Lock, threading.RLock] = None
+    mutex: typing.Optional[typing.Union[asyncio.Lock, threading.Lock, threading.RLock]] = None
 
-    def _print(self, text, color):
+    def _print(self, text: str, color: str) -> None:
         with self.mutex:
             print(color + text)
 
-    def info(self, text, color=Fore.MAGENTA):
+    def info(self, text: str, color: str = Fore.MAGENTA) -> None:
         self._print(text, color)
 
-    def warning(self, text, color=Fore.YELLOW):
+    def warning(self, text: str, color: str = Fore.YELLOW) -> None:
         self._print(text, color)
 
-    def success(self, text, color=Fore.GREEN):
+    def success(self, text: str, color: str = Fore.GREEN) -> None:
         self._print(text, color)
 
-    def error(self, text, color=Fore.RED):
+    def error(self, text: str, color: str = Fore.RED) -> None:
         self._print(text, color)
 
 
 class ColorPrint(BaseColorPrint):
-    mutex = threading.Lock()
+    mutex: threading.Lock = threading.Lock()
 
 
 class AsyncColorPrint(BaseColorPrint):
-    mutex = asyncio.Lock()
+    mutex: asyncio.Lock = asyncio.Lock()
 
-    async def _print(self, text, color):
+    async def _print(self, text: str, color: str) -> None:
         async with self.mutex:
             print(color + text)
 
-    async def info(self, text, color=Fore.MAGENTA):
+    async def info(self, text: str, color: str = Fore.MAGENTA) -> None:
         await self._print(text, color)
 
-    async def warning(self, text, color=Fore.YELLOW):
+    async def warning(self, text: str, color: str = Fore.YELLOW) -> None:
         await self._print(text, color)
 
-    async def success(self, text, color=Fore.GREEN):
+    async def success(self, text: str, color: str = Fore.GREEN) -> None:
         await self._print(text, color)
 
-    async def error(self, text, color=Fore.RED):
+    async def error(self, text: str, color: str = Fore.RED) -> None:
         await self._print(text, color)
