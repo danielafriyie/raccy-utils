@@ -13,15 +13,18 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
 """
+import typing
 import setuptools
 from ru import __version__
 
 with open('README.md', 'r', encoding='utf-8') as f:
-    long_des = f.read()
+    long_des: str = f.read()
 
-install_requires = ['colorama']
+install_requires: typing.List[str] = [
+    'colorama'
+]
 
-include = (
+include: typing.Tuple[str, ...] = (
     'ru', 'ru.*'
 )
 
@@ -37,8 +40,6 @@ setuptools.setup(
     license='Apache License, Version 2.0',
     classifiers=[
         'Programming Language :: Python',
-        'Programming Language :: Python :: 3',
-        'Programming Language :: Python :: 3.6',
         'Programming Language :: Python :: 3.7',
         'Programming Language :: Python :: 3.8',
         'Programming Language :: Python :: 3.9',
