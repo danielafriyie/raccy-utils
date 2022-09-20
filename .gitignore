@@ -20,3 +20,4 @@ foo.txt
 dist
 build
 raccy_utils.egg-info
+.mypy_cache
