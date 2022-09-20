@@ -13,17 +13,13 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
 """
-import os
 import json
 import typing
 import threading
 
 from ru.utils import abstractmethod, get_data
 from ru.exceptions.exceptions import ConfigKeyError, ConfigFileNotFoundError
-
-Cast = typing.Callable[[typing.Any], typing.Any]
-Path = typing.Union[str, bytes, os.PathLike[str], os.PathLike[bytes]]
-Config = typing.Dict[str, str]
+from ru.annotations import Cast, Path, Config
 
 
 class BaseConfig:
