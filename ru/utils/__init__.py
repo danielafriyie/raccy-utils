@@ -17,12 +17,17 @@ import os
 import shutil
 import errno
 import stat
+import typing
 import threading
 
-_MUTEX = threading.Lock()
+from ru.annotations import Path
+
+_MUTEX: threading.Lock = threading.Lock()
+
+Func = typing.Callable[[...], typing.Any]
 
 
-def abstractmethod(func):
+def abstractmethod(func: Func) -> Func:
     """A decorator indicating a method is abstract method"""
 
     def wrap(self, *args, **kwargs):
@@ -31,7 +36,12 @@ def abstractmethod(func):
     return wrap
 
 
-def get_data(fn, split=False, split_char=None, filter_blanks=False):
+def get_data(
+        fn: Path,
+        split: typing.Optional[bool] = False,
+        split_char: typing.Optional[str] = None,
+        filter_blanks: typing.Optional[bool] = False
+) -> typing.Union[str, typing.List[str]]:
     """
     :param fn: filename to open
     :param split: if you want to split the data read
@@ -52,17 +62,17 @@ def get_data(fn, split=False, split_char=None, filter_blanks=False):
     return data
 
 
-def mk_dir(*paths):
+def mk_dir(*paths: typing.Tuple[str, ...]) -> None:
     with _MUTEX:
         for p in paths:
             if not os.path.exists(p):
                 os.mkdir(p)
 
 
-def get_filename(name, path, is_folder=False):
+def get_filename(name: str, path: str, is_folder: typing.Optional[bool] = False) -> str:
     with _MUTEX:
-        files = os.listdir(path)
-        split = name.split('.')
+        files: list = os.listdir(path)
+        split: list = name.split('.')
         if is_folder is False:
             ext = f".{split.pop(-1)}"
             fn = ''.join(split)
@@ -78,16 +88,16 @@ def get_filename(name, path, is_folder=False):
             counter += 1
 
 
-def handle_remove_read_only(func, path, exc):
+def handle_remove_read_only(func: typing.Callable[[str], None], path: str, exc: typing.Sequence) -> None:
     excvalue = exc[1]
     if func in (os.rmdir, os.remove) and excvalue.errno == errno.EACCES:
-        os.chmod(path, stat.S_IRWXU | stat.S_IRWXG | stat.S_IRWXO)  # 0777
+        os.chmod(path, stat.S_IRWXU | stat.S_IRWXG | stat.S_IRWXO)
         func(path)
     else:
         raise
 
 
-def remove_dir(p):
+def remove_dir(p: str) -> None:
     with _MUTEX:
         try:
             shutil.rmtree(p, ignore_errors=False, onerror=handle_remove_read_only)
