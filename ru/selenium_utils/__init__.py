@@ -42,8 +42,8 @@ except ImportError:
 Element = typing.Union[WebElement, typing.List[WebElement]]
 Condition = typing.Optional[typing.Callable[[typing.Tuple[str, str]], typing.Any]]
 Seconds = typing.Optional[typing.Union[int, float]]
-Args = typing.Tuple[typing.Any, ...]
-Kwargs = typing.Dict[str, typing.Any]
+Args = typing.Any
+Kwargs = typing.Any
 Action = typing.Optional[str]
 
 

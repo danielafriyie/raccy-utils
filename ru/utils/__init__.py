@@ -62,14 +62,14 @@ def get_data(
     return data
 
 
-def mk_dir(*paths: typing.Tuple[str, ...]) -> None:
+def mk_dir(*paths: Path) -> None:
     with _MUTEX:
         for p in paths:
             if not os.path.exists(p):
                 os.mkdir(p)
 
 
-def get_filename(name: str, path: str, is_folder: typing.Optional[bool] = False) -> str:
+def get_filename(name: str, path: Path, is_folder: typing.Optional[bool] = False) -> Path:
     with _MUTEX:
         files: list = os.listdir(path)
         split: list = name.split('.')
@@ -88,7 +88,7 @@ def get_filename(name: str, path: str, is_folder: typing.Optional[bool] = False)
             counter += 1
 
 
-def handle_remove_read_only(func: typing.Callable[[str], None], path: str, exc: typing.Sequence) -> None:
+def handle_remove_read_only(func: typing.Callable[[Path], None], path: Path, exc: typing.Sequence[typing.Any]) -> None:
     excvalue = exc[1]
     if func in (os.rmdir, os.remove) and excvalue.errno == errno.EACCES:
         os.chmod(path, stat.S_IRWXU | stat.S_IRWXG | stat.S_IRWXO)
@@ -97,7 +97,7 @@ def handle_remove_read_only(func: typing.Callable[[str], None], path: str, exc: 
         raise
 
 
-def remove_dir(p: str) -> None:
+def remove_dir(p: Path) -> None:
     with _MUTEX:
         try:
             shutil.rmtree(p, ignore_errors=False, onerror=handle_remove_read_only)
