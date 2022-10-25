@@ -19,6 +19,7 @@ import os
 import asyncio
 import threading
 import typing
+import traceback
 
 from colorama import Fore
 
@@ -99,8 +100,17 @@ class BaseColorPrint:
     def success(self, text: str, color: str = Fore.GREEN) -> None:
         self._print(text, color)
 
-    def error(self, text: str, color: str = Fore.RED) -> None:
-        self._print(text, color)
+    def error(self, error: typing.Union[str, BaseException], color: str = Fore.RED) -> None:
+        if isinstance(error, BaseException):
+            msg = self.get_error_message(error)
+            self._print(msg, color)
+        else:
+            self._print(error, color)
+
+    @staticmethod
+    def get_error_message(e: BaseException) -> str:
+        msg = ''.join(traceback.format_exception(type(e), e, e.__traceback__))
+        return msg
 
 
 class ColorPrint(BaseColorPrint):
@@ -123,5 +133,9 @@ class AsyncColorPrint(BaseColorPrint):
     async def success(self, text: str, color: str = Fore.GREEN) -> None:
         await self._print(text, color)
 
-    async def error(self, text: str, color: str = Fore.RED) -> None:
-        await self._print(text, color)
+    async def error(self, error: typing.Union[str, BaseException], color: str = Fore.RED) -> None:
+        if isinstance(error, BaseException):
+            msg = self.get_error_message(error)
+            await self._print(msg, color)
+        else:
+            await self._print(error, color)

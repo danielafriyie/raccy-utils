@@ -73,7 +73,7 @@ class BaseConfig:
         except FileNotFoundError:
             raise ConfigFileNotFoundError(f"{self.__class__.__name__}: Config file '{self.CONFIG_PATH}' not found!")
 
-    def __getitem__(self, item: typing.Union[list, str]) -> typing.Union[str, list]:
+    def __getitem__(self, item: typing.Union[list, str]) -> typing.Any:
         with self._mutex:
             try:
                 if isinstance(item, list):
