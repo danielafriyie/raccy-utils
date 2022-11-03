@@ -94,7 +94,7 @@ class BaseColorPrint:
 
     def write_to_log_file(self, text: str) -> None:
         with open(self._log_file, 'a', encoding='utf-8') as f:
-            f.write(f'\n{text}')
+            f.write(f'{text}\n')
 
     def _print(self, level: str, text: str, color: str) -> None:
         with self.mutex:
