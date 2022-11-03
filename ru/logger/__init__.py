@@ -20,6 +20,7 @@ import asyncio
 import threading
 import typing
 import traceback
+from datetime import datetime as dt
 
 from colorama import Fore
 
@@ -87,25 +88,39 @@ class Logger:
 class BaseColorPrint:
     mutex: typing.Optional[typing.Union[asyncio.Lock, threading.Lock, threading.RLock]] = None
 
-    def _print(self, text: str, color: str) -> None:
+    def __init__(self, log_folder: typing.Optional[Path] = 'logs', log_file: typing.Optional[Path] = 'log.log') -> None:
+        self._log_file = os.path.join(log_folder, log_file)
+        os.makedirs(log_folder, exist_ok=True)
+
+    def write_to_log_file(self, text: str) -> None:
+        with open(self._log_file, 'a', encoding='utf-8') as f:
+            f.write(f'\n{text}')
+
+    def _print(self, level: str, text: str, color: str) -> None:
         with self.mutex:
-            print(color + text)
+            n = dt.now().strftime('%Y-%m-%d %H:%M:%S,%f')
+            t1, ms = n.split(',')
+            ms = ms[0:3]
+            now = f"{t1},{ms}"
+            t = f"{now}:{level}:{text}"
+            print(color + t)
+            self.write_to_log_file(t)
 
     def info(self, text: str, color: str = Fore.MAGENTA) -> None:
-        self._print(text, color)
+        self._print('INFO', text, color)
 
     def warning(self, text: str, color: str = Fore.YELLOW) -> None:
-        self._print(text, color)
+        self._print('WARNING', text, color)
 
     def success(self, text: str, color: str = Fore.GREEN) -> None:
-        self._print(text, color)
+        self._print('SUCCESS', text, color)
 
     def error(self, error: typing.Union[str, BaseException], color: str = Fore.RED) -> None:
         if isinstance(error, BaseException):
             msg = self.get_error_message(error)
-            self._print(msg, color)
+            self._print('ERROR', msg, color)
         else:
-            self._print(error, color)
+            self._print('ERROR', error, color)
 
     @staticmethod
     def get_error_message(e: BaseException) -> str:

@@ -14,13 +14,12 @@ See the License for the specific language governing permissions and
 limitations under the License.
 """
 from .config import JsonConfig, TextConfig
-from .logger import logger, ColorPrint, AsyncColorPrint
+from .logger import logger, ColorPrint
 
-__version__: str = '0.3.9'
+__version__ = '0.3.9'
 
-__all__: list = ['JsonConfig',
-                 'TextConfig',
-                 'logger',
-                 'ColorPrint',
-                 'AsyncColorPrint',
-                 '__version__']
+__all__ = ['JsonConfig',
+           'TextConfig',
+           'logger',
+           'ColorPrint',
+           '__version__']
