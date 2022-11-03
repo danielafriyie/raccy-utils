@@ -115,27 +115,3 @@ class BaseColorPrint:
 
 class ColorPrint(BaseColorPrint):
     mutex: threading.Lock = threading.Lock()
-
-
-class AsyncColorPrint(BaseColorPrint):
-    mutex: asyncio.Lock = asyncio.Lock()
-
-    async def _print(self, text: str, color: str) -> None:
-        async with self.mutex:
-            print(color + text)
-
-    async def info(self, text: str, color: str = Fore.MAGENTA) -> None:
-        await self._print(text, color)
-
-    async def warning(self, text: str, color: str = Fore.YELLOW) -> None:
-        await self._print(text, color)
-
-    async def success(self, text: str, color: str = Fore.GREEN) -> None:
-        await self._print(text, color)
-
-    async def error(self, error: typing.Union[str, BaseException], color: str = Fore.RED) -> None:
-        if isinstance(error, BaseException):
-            msg = self.get_error_message(error)
-            await self._print(msg, color)
-        else:
-            await self._print(error, color)
