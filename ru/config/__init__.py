@@ -20,7 +20,7 @@ import threading
 
 from ru.utils import get_data
 from ru.exceptions.exceptions import ConfigKeyError, ConfigFileNotFoundError
-from ru.annotations import Cast, Path, Config
+from ru.annotations import Cast, Path, Config, OpenPath
 
 
 class BaseConfig(abc.ABC):
@@ -38,7 +38,7 @@ class BaseConfig(abc.ABC):
         return self._config
 
     @abc.abstractmethod
-    def save(self, filename: typing.Optional[Path] = 'config.txt', encoding: typing.Optional[str] = 'utf-8') -> None:
+    def save(self, filename: OpenPath = 'config.txt', encoding: typing.Optional[str] = 'utf-8') -> None:
         pass
 
     @abc.abstractmethod
@@ -49,7 +49,9 @@ class BaseConfig(abc.ABC):
     def _cast(item: str, cast: Cast) -> typing.Any:
         if cast is bool:
             return eval(item.strip().capitalize())
-        return cast(item.strip())
+        if cast is not None:
+            return cast(item.strip())
+        return item
 
     def get(self, item: str, default: typing.Optional[typing.Any] = None, cast: Cast = None) -> typing.Any:
         with self._mutex:
@@ -103,7 +105,7 @@ class JsonConfig(BaseConfig):
             config: Config = json.load(f)
         return config
 
-    def save(self, filename: typing.Optional[Path] = 'config.txt', encoding: typing.Optional[str] = 'utf-8') -> None:
+    def save(self, filename: OpenPath = 'config.txt', encoding: typing.Optional[str] = 'utf-8') -> None:
         with open(filename, 'w', encoding=encoding) as f:
             json.dump(self._config, f, indent=4)
 
@@ -115,18 +117,18 @@ class TextConfig(BaseConfig):
 
     def load_config(self) -> Config:
         config: dict = {}
-        data: typing.List[str] = get_data(self.CONFIG_PATH, split=True, split_char='\n', filter_blanks=True)
+        data = get_data(self.CONFIG_PATH, split=True, split_char='\n', filter_blanks=True)
         for d in data:
             try:
-                split: typing.List[str] = d.split('=')
-                key: str = split.pop(0)
-                val: str = '='.join(split)
+                split = d.split('=')
+                key = split.pop(0)
+                val = '='.join(split)
                 config[key] = val
             except ValueError:
                 pass
         return config
 
-    def save(self, filename: typing.Optional[Path] = 'config.txt', encoding: typing.Optional[str] = 'utf-8') -> None:
+    def save(self, filename: OpenPath = 'config.txt', encoding: typing.Optional[str] = 'utf-8') -> None:
         with open(filename, 'w', encoding=encoding) as f:
             len_config: int = len(self._config) - 1
             for idx, key in enumerate(self._config):
