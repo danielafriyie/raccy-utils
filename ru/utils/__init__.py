@@ -27,15 +27,6 @@ _MUTEX: threading.Lock = threading.Lock()
 Func = typing.Callable[..., typing.Any]
 
 
-def abstractmethod(func: Func) -> Func:
-    """A decorator indicating a method is abstract method"""
-
-    def wrap(self, *args, **kwargs):
-        raise NotImplementedError(f"{self.__class__.__name__}.{func.__name__} is not implemented!")
-
-    return wrap
-
-
 def get_data(
         fn: Path,
         split: typing.Optional[bool] = False,
