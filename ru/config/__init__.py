@@ -13,16 +13,17 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
 """
+import abc
 import json
 import typing
 import threading
 
-from ru.utils import abstractmethod, get_data
+from ru.utils import get_data
 from ru.exceptions.exceptions import ConfigKeyError, ConfigFileNotFoundError
 from ru.annotations import Cast, Path, Config
 
 
-class BaseConfig:
+class BaseConfig(abc.ABC):
     """"
     Base config class for all config classes
     """
@@ -36,11 +37,11 @@ class BaseConfig:
     def config(self) -> Config:
         return self._config
 
-    @abstractmethod
+    @abc.abstractmethod
     def save(self, filename: typing.Optional[Path] = 'config.txt', encoding: typing.Optional[str] = 'utf-8') -> None:
         pass
 
-    @abstractmethod
+    @abc.abstractmethod
     def load_config(self) -> Config:
         pass
 
