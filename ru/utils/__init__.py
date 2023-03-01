@@ -65,8 +65,7 @@ def get_data(
 def mk_dir(*paths: Path) -> None:
     with _MUTEX:
         for p in paths:
-            if not os.path.exists(p):
-                os.mkdir(p)
+            os.makedirs(p, exist_ok=True)
 
 
 def get_filename(name: str, path: Path, is_folder: typing.Optional[bool] = False) -> Path:
