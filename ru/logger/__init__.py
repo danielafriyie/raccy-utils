@@ -17,9 +17,9 @@ import os
 import typing
 import logging
 import pathlib
-import asyncio
 import threading
 import traceback
+import logging.handlers as handlers
 from datetime import datetime as dt
 
 from colorama import Fore
@@ -63,7 +63,7 @@ class Logger:
         _logger.setLevel(level=logging.DEBUG)
 
         formatter: logging.Formatter = logging.Formatter(self._fmt)
-        file_handler: logging.FileHandler = logging.FileHandler(self._get_log_file(), encoding='utf-8')
+        file_handler: handlers.TimedRotatingFileHandler = handlers.TimedRotatingFileHandler(self._get_log_file(), when="D", interval=30, encoding="utf-8")
         file_handler.setFormatter(formatter)
         file_handler.setLevel(logging.INFO)
 
