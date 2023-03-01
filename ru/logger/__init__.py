@@ -13,12 +13,12 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
 """
+import os
+import typing
 import logging
 import pathlib
-import os
 import asyncio
 import threading
-import typing
 import traceback
 from datetime import datetime as dt
 
@@ -86,15 +86,7 @@ class Logger:
 
 
 class BaseColorPrint:
-    mutex: typing.Optional[typing.Union[asyncio.Lock, threading.Lock, threading.RLock]] = None
-
-    def __init__(self, log_folder: typing.Optional[Path] = 'logs', log_file: typing.Optional[Path] = 'log.log') -> None:
-        self._log_file = os.path.join(log_folder, log_file)
-        os.makedirs(log_folder, exist_ok=True)
-
-    def write_to_log_file(self, text: str) -> None:
-        with open(self._log_file, 'a', encoding='utf-8') as f:
-            f.write(f'{text}\n')
+    mutex: threading.Lock
 
     def _print(self, level: str, text: str, color: str) -> None:
         with self.mutex:
@@ -104,7 +96,6 @@ class BaseColorPrint:
             now = f"{t1},{ms}"
             t = f"{now}:{level}:{text}"
             print(color + t)
-            self.write_to_log_file(t)
 
     def info(self, text: str, color: str = Fore.MAGENTA) -> None:
         self._print('INFO', text, color)
