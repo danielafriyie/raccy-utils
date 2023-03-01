@@ -33,11 +33,13 @@ try:
 except ImportError:
     warnings.warn("It seems you don't have selenium installed. "
                   "Install it before using this module!\npip3 install selenium")
+    raise
 try:
     import pyperclip
 except ImportError:
     warnings.warn("It seems you don't have pyperclip installed. "
                   "Install it before using this module!\npip3 install pyperclip")
+    raise
 
 Element = typing.Union[WebElement, typing.List[WebElement]]
 Condition = typing.Optional[typing.Callable[[typing.Tuple[str, str]], typing.Any]]
