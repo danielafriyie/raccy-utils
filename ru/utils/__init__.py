@@ -49,7 +49,7 @@ def get_data(
             if split_char:
                 data_split = data.split(split_char)
                 if filter_blanks:
-                    data_split = [s.strip() for s in data if s.strip() != '']
+                    data_split = [s.strip() for s in data_split if s.strip() != '']
                     return data_split
                 return data_split
     return data
