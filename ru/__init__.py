@@ -16,7 +16,7 @@ limitations under the License.
 from .config import JsonConfig, TextConfig
 from .logger import logger, ColorPrint
 
-__version__ = '0.3.11'
+__version__ = '0.3.12'
 
 __all__ = ['JsonConfig',
            'TextConfig',
