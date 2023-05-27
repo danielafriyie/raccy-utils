@@ -2,6 +2,7 @@ package raccy.utils;
 
 import java.util.Arrays;
 import java.util.List;
+import java.io.File;
 import java.io.FileReader;
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -23,5 +24,12 @@ public class Utils {
 
     public static List<String> readFile(String fileName, String splitChar) throws IOException {
         return Arrays.stream(readFile(fileName).split(splitChar)).filter(s -> !s.equals("")).toList();
+    }
+
+    public static void makeDir(String ...paths) {
+        for (String p : paths) {
+            File f = new File(p);
+            f.mkdir();
+        }
     }
 }
