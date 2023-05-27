@@ -40,4 +40,8 @@ public class Utils {
             Files.deleteIfExists(Path.of(p));
         }
     }
+
+    public static String getFileName(String name, String path, boolean isFolder) {
+        return null;
+    }
 }
