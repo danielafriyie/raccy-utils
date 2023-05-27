@@ -41,7 +41,41 @@ public class Utils {
         }
     }
 
-    public static String getFileName(String name, String path, boolean isFolder) {
-        return null;
+    public static String joinPath(String parent, String child) {
+        return parent + File.separator + child;
+    }
+
+    public static Path joinPath(String parent, String child, boolean dummy) {
+        return Path.of(joinPath(parent, child));
+    }
+
+    public static String getFileName(String name, String path, boolean isFolder) throws IOException {
+        List<Path> files = Files.list(Path.of(path)).toList();
+        String[] split = name.split("\\.");
+
+        String fn, ext;
+
+        if (isFolder) {
+            fn = name;
+            ext = "";
+        } else {
+            ext = "." + split[split.length - 1];
+            fn = String.join("", Arrays.copyOfRange(split, 0, split.length - 1));
+        }
+
+        int counter = 1;
+
+        while (true) {
+            if (!files.contains(joinPath(path, name, true))) {
+                return path + File.separator + name;
+            }
+
+            name = fn + "(" + counter + ")" + ext;
+            counter++;
+        }
+    }
+
+    public static String getFileName(String name, String path) throws IOException {
+        return getFileName(name, path, false);
     }
 }
