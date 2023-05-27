@@ -19,5 +19,6 @@ logs
 foo.txt
 dist
 build
+bunny
 raccy_utils.egg-info
 .mypy_cache
