@@ -1,13 +1,14 @@
 package raccy.config;
 
 import java.util.Arrays;
+import java.util.List;
 import java.util.Map;
 import java.util.HashMap;
-import java.io.FileReader;
 import java.io.FileWriter;
-import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.IOException;
+
+import raccy.utils.Utils;
 
 public class TextConfig extends BaseConfig {
 
@@ -28,18 +29,16 @@ public class TextConfig extends BaseConfig {
 
     @Override
     public Map<String, String> load() throws IOException {
-        try (BufferedReader br = new BufferedReader(new FileReader(getConfigPath()))) {
-            HashMap<String, String> config = new HashMap<>();
-            String line;
+        List<String> data = Utils.readFile(getConfigPath(), "\n");
+        HashMap<String, String> config = new HashMap<>();
 
-            while ((line = br.readLine()) != null) {
-                String[] split = line.split("=");
-                String key = split[0];
-                String value = String.join("=", Arrays.copyOfRange(split, 1, split.length));
-                config.put(key, value);
-            }
-
-            return config;
+        for (String line : data) {
+            String[] split = line.split("=");
+            String key = split[0];
+            String value = String.join("=", Arrays.copyOfRange(split, 1, split.length));
+            config.put(key, value);
         }
+
+        return config;
     }
 }
