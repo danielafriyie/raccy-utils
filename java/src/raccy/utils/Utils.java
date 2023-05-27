@@ -1,11 +1,13 @@
 package raccy.utils;
 
+import java.nio.file.Path;
 import java.util.Arrays;
 import java.util.List;
 import java.io.File;
 import java.io.FileReader;
 import java.io.BufferedReader;
 import java.io.IOException;
+import java.nio.file.Files;
 
 public class Utils {
 
@@ -30,6 +32,12 @@ public class Utils {
         for (String p : paths) {
             File f = new File(p);
             f.mkdir();
+        }
+    }
+
+    public static void removeDir(String ...paths) throws IOException {
+        for (String p : paths) {
+            Files.deleteIfExists(Path.of(p));
         }
     }
 }
