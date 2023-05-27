@@ -20,5 +20,6 @@ foo.txt
 dist
 build
 bunny
+out
 raccy_utils.egg-info
 .mypy_cache

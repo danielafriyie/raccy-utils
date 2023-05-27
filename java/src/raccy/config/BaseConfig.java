@@ -1,6 +1,7 @@
 package raccy.config;
 
 import java.util.Map;
+import java.io.IOException;
 import java.util.function.Function;
 
 public abstract class BaseConfig {
@@ -13,20 +14,28 @@ public abstract class BaseConfig {
         return item;
     }
 
-    public BaseConfig(String configPath) {
+    public BaseConfig(String configPath) throws IOException{
         this.configPath = configPath;
         this.config = load();
     }
+
+    public abstract void save() throws IOException;
+
+    public abstract Map<String, String> load() throws IOException;
 
     public Map<String, String> getConfig() {
         return config;
     }
 
-    public abstract void save();
+    public String getConfigPath() {
+        return configPath;
+    }
 
-    public abstract Map<String, String> load();
+    public synchronized void put(String key, String value) {
+        config.put(key, value);
+    }
 
-    public String get(String key) {
+    public synchronized String get(String key) {
         return config.get(key);
     }
 
@@ -45,6 +54,6 @@ public abstract class BaseConfig {
     }
 
     public String toString() {
-        return config.toString();
+        return this.getClass().getName() + "(" + config.toString() + ")";
     }
 }
