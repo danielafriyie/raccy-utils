@@ -8,15 +8,15 @@ public abstract class BaseConfig {
     private String configPath;
     private Map<String, String> config;
 
-    public static Object cast(String item, Function<String, Object> func) {
-        if (func != null)
-            return func.apply(item);
-        return item;
-    }
-
     public BaseConfig(String configPath) throws IOException{
         this.configPath = configPath;
         this.config = load();
+    }
+
+    public static Object cast(String item, Function<String, Object> func) {
+        if ((func != null) && (item != null))
+            return func.apply(item);
+        return item;
     }
 
     public abstract void save() throws IOException;
@@ -49,7 +49,7 @@ public abstract class BaseConfig {
     public Object get(String key, Object default_, Function<String, Object> func) {
         Object item = get(key, default_);
         if (item != null)
-            return func.apply((String) item);
+            return cast((String) item, func);
         return default_;
     }
 
