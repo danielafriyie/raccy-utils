@@ -12,11 +12,11 @@ import raccy.utils.Utils;
 
 public class TextConfig extends BaseConfig {
 
-    public TextConfig(String configPath) throws IOException {
+    public TextConfig(String configPath) throws Exception {
         super(configPath);
     }
 
-    public TextConfig() throws IOException {
+    public TextConfig() throws Exception {
         this("config.txt");
     }
 

@@ -8,7 +8,7 @@ public abstract class BaseConfig {
     private String configPath;
     private Map<String, String> config;
 
-    public BaseConfig(String configPath) throws IOException{
+    public BaseConfig(String configPath) throws Exception{
         this.configPath = configPath;
         this.config = load();
     }
@@ -19,9 +19,9 @@ public abstract class BaseConfig {
         return item;
     }
 
-    public abstract void save() throws IOException;
+    public abstract void save() throws Exception;
 
-    public abstract Map<String, String> load() throws IOException;
+    public abstract Map<String, String> load() throws Exception;
 
     public Map<String, String> getConfig() {
         return config;
