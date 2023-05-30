@@ -11,6 +11,10 @@ import java.nio.file.Files;
 
 public class Utils {
 
+    private Utils() {
+
+    }
+
     public static String readFile(String fileName) throws IOException {
         try (BufferedReader br = new BufferedReader(new FileReader(fileName))) {
             StringBuilder builder = new StringBuilder();
@@ -28,14 +32,14 @@ public class Utils {
         return Arrays.stream(readFile(fileName).split(splitChar)).filter(s -> !s.equals("")).toList();
     }
 
-    public static void makeDir(String ...paths) {
+    public static void makeDir(String... paths) {
         for (String p : paths) {
             File f = new File(p);
             f.mkdir();
         }
     }
 
-    public static void removeDir(String ...paths) throws IOException {
+    public static void removeDir(String... paths) throws IOException {
         for (String p : paths) {
             Files.deleteIfExists(Path.of(p));
         }
