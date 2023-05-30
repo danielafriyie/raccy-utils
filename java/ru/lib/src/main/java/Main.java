@@ -3,7 +3,7 @@ import raccy.utils.Utils;
 
 public class Main {
     public static void main(String[] args) throws Exception {
-        String fn = Utils.getFileName("config.txt", "C:\\Users\\afriy\\Desktop\\PROJECTS\\raccy-utils\\java\\ru\\bunny");
-        System.out.println(fn);
+        String s = String.format("window.scrollTo(0, %s);",23.5);
+        System.out.println(s);
     }
 }
