@@ -8,6 +8,10 @@ public class JsonConfig extends BaseConfig{
         super(configPath);
     }
 
+    public JsonConfig() throws IOException {
+        this("config.json");
+    }
+
     @Override
     public void save() throws IOException {
 

@@ -16,6 +16,10 @@ public class TextConfig extends BaseConfig {
         super(configPath);
     }
 
+    public TextConfig() throws IOException {
+        this("config.txt");
+    }
+
     @Override
     public void save() throws IOException {
         try (BufferedWriter br = new BufferedWriter(new FileWriter(getConfigPath()))) {
