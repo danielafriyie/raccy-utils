@@ -14,22 +14,17 @@ See the License for the specific language governing permissions and
 limitations under the License.
 */
 
-package raccy.logger;
+package raccy.logger.logger;
 
-public enum Level {
-    INFO("INFO"),
-    WARNING("WARNING"),
-    SUCCESS("SUCCESS"),
-    ERROR("ERROR");
+import raccy.logger.writer.PersistentWriter;
 
-    private final String level;
+public class PersistentLogger extends BaseLogger {
 
-    Level(String level) {
-        this.level = level;
+    public PersistentLogger(String logPath) {
+        super(new PersistentWriter(logPath));
     }
 
-    @Override
-    public String toString() {
-        return level;
+    public PersistentLogger() {
+        super(new PersistentWriter());
     }
 }

@@ -14,22 +14,19 @@ See the License for the specific language governing permissions and
 limitations under the License.
 */
 
-package raccy.logger;
+package raccy.logger.logger;
 
-public enum Level {
-    INFO("INFO"),
-    WARNING("WARNING"),
-    SUCCESS("SUCCESS"),
-    ERROR("ERROR");
+import java.io.IOException;
 
-    private final String level;
+import raccy.logger.writer.LazyWriter;
 
-    Level(String level) {
-        this.level = level;
+public class LazyLogger extends BaseLogger {
+
+    public LazyLogger() throws IOException {
+        super(new LazyWriter());
     }
 
-    @Override
-    public String toString() {
-        return level;
+    public LazyLogger(String logPath) throws IOException {
+        super(new LazyWriter(logPath));
     }
 }
