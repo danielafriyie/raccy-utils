@@ -18,6 +18,7 @@ public class ColorPrint implements Logger {
         print("INFO", color, msg);
     }
 
+    @Override
     public void info(String msg) {
         info(msg, Color.BLUE);
     }
@@ -26,6 +27,7 @@ public class ColorPrint implements Logger {
         print("WARNING", color, msg);
     }
 
+    @Override
     public void warning(String msg) {
         warning(msg, Color.YELLOW);
     }
@@ -34,6 +36,7 @@ public class ColorPrint implements Logger {
         print("SUCCESS", color, msg);
     }
 
+    @Override
     public void success(String msg) {
         success(msg, Color.GREEN);
     }
@@ -42,10 +45,12 @@ public class ColorPrint implements Logger {
         print("ERROR", color, msg);
     }
 
+    @Override
     public void error(String msg) {
         error(msg, Color.RED);
     }
 
+    @Override
     public void error(Exception e) {
         String msg = e.toString();
         StringBuilder builder = new StringBuilder();
