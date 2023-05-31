@@ -3,7 +3,7 @@ import java.util.List;
 import java.util.ArrayList;
 import java.lang.Thread;
 
-import raccy.config.JsonConfig;
+import raccy.logger.colorprint.ColorPrint;
 
 public class Main {
 
@@ -12,10 +12,13 @@ public class Main {
     }
 
     public static void main(String[] args) throws Exception {
-        var c = new JsonConfig("C:\\Users\\afriy\\Desktop\\PROJECTS\\raccy-utils\\java\\ru\\bunny\\config.json");
-        System.out.println(c.get("firstName"));
-        System.out.println(c);
-        c.put("testy", "kyle");
-        c.save();
+        var ss = Arrays.asList("hello", "world", "hi", "anita");
+        for (var s : ss) {
+            ColorPrint.info(s);
+            ColorPrint.warning(s);
+            ColorPrint.success(s);
+            ColorPrint.error(s);
+            ColorPrint.error(new Exception(s));
+        }
     }
 }
