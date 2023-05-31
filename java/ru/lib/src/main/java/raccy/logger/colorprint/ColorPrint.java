@@ -52,25 +52,6 @@ public class ColorPrint implements Logger {
 
     @Override
     public void error(Exception e) {
-        String msg = e.toString();
-        StringBuilder builder = new StringBuilder();
-
-        Arrays.stream(e.getStackTrace()).forEach((elm) -> {
-            String line = elm.toString();
-            String method = elm.getMethodName();
-            String className = elm.getClassName();
-            builder.append(line)
-                    .append("\n")
-                    .append("Class: ")
-                    .append(className)
-                    .append("\n")
-                    .append("Method: ")
-                    .append(method)
-                    .append("\n")
-                    .append(msg)
-                    .append("\n");
-        });
-
-        error(builder.toString(), Color.RED_BOLD);
+        error(getErrorMsg(e), Color.RED_BOLD);
     }
 }
