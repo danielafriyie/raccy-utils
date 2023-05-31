@@ -1,14 +1,12 @@
 package raccy.logger.simple;
 
-import java.io.BufferedWriter;
-import java.io.FileWriter;
 import java.io.IOException;
-import java.io.PrintWriter;
 import java.nio.file.Paths;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
 import raccy.utils.Utils;
+import raccy.logger.Level;
 import raccy.logger.Logger;
 import raccy.logger.writer.Writer;
 import raccy.logger.writer.LazyWriter;
@@ -35,31 +33,31 @@ public abstract class BaseLogger implements Logger {
         Utils.makeDir(logDir);
     }
 
-    private synchronized void log(String level, String msg) {
+    private synchronized void log(Level level, String msg) {
         String now = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd H:m:s,SSS"));
-        String t = now + ":" + level + ":" + msg;
+        String t = now + ":" + level.toString() + ":" + msg;
         System.out.println(t);
         writer.write(t + "\n");
     }
 
     @Override
     public void info(String msg) {
-        log("INFO", msg);
+        log(Level.INFO, msg);
     }
 
     @Override
     public void warning(String msg) {
-        log("WARNING", msg);
+        log(Level.WARNING, msg);
     }
 
     @Override
     public void success(String msg) {
-        log("SUCCESS", msg);
+        log(Level.SUCCESS, msg);
     }
 
     @Override
     public void error(String msg) {
-        log("ERROR", msg);
+        log(Level.ERROR, msg);
     }
 
     @Override

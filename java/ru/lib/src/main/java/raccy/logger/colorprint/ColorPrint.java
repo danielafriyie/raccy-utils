@@ -3,18 +3,19 @@ package raccy.logger.colorprint;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
+import raccy.logger.Level;
 import raccy.logger.Logger;
 
 public class ColorPrint implements Logger {
 
-    private synchronized void print(String level, Color color, String msg) {
+    private synchronized void print(Level level, Color color, String msg) {
         String now = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd H:m:s,SSS"));
-        String t = now + ":" + level + ":" + msg;
+        String t = now + ":" + level.toString() + ":" + msg;
         System.out.println(color + t + Color.RESET);
     }
 
     public void info(String msg, Color color) {
-        print("INFO", color, msg);
+        print(Level.INFO, color, msg);
     }
 
     @Override
@@ -23,7 +24,7 @@ public class ColorPrint implements Logger {
     }
 
     public void warning(String msg, Color color) {
-        print("WARNING", color, msg);
+        print(Level.WARNING, color, msg);
     }
 
     @Override
@@ -32,7 +33,7 @@ public class ColorPrint implements Logger {
     }
 
     public void success(String msg, Color color) {
-        print("SUCCESS", color, msg);
+        print(Level.SUCCESS, color, msg);
     }
 
     @Override
@@ -41,7 +42,7 @@ public class ColorPrint implements Logger {
     }
 
     public void error(String msg, Color color) {
-        print("ERROR", color, msg);
+        print(Level.ERROR, color, msg);
     }
 
     @Override
