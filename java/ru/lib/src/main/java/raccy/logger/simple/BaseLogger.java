@@ -1,11 +1,8 @@
 package raccy.logger.simple;
 
-import java.io.IOException;
-import java.nio.file.Paths;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
-import raccy.utils.Utils;
 import raccy.logger.Level;
 import raccy.logger.Logger;
 import raccy.logger.writer.Writer;

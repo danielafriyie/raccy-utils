@@ -27,8 +27,8 @@ public class Main {
             cprint.warning(s);
             cprint.success(s);
             cprint.error(s);
-//            cprint.error(new Exception(s));
+            cprint.error(new Exception(s));
         }
-        cprint.close();
+//        cprint.close();
     }
 }

@@ -1,7 +1,6 @@
 package raccy.config;
 
 import java.util.Map;
-import java.io.IOException;
 import java.util.function.Function;
 
 public abstract class BaseConfig {
