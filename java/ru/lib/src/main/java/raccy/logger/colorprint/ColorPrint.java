@@ -50,7 +50,7 @@ public class ColorPrint implements Logger {
     }
 
     @Override
-    public void error(Exception e) {
+    public void error(Throwable e) {
         error(getErrorMsg(e), Color.RED_BOLD);
     }
 }

@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.lang.Thread;
 
 import raccy.logger.colorprint.ColorPrint;
+import raccy.logger.slf4j.SLF4J;
 
 public class Main {
 
@@ -12,7 +13,7 @@ public class Main {
     }
 
     public static void main(String[] args) throws Exception {
-        var cprint = new ColorPrint();
+        var cprint = new SLF4J();
         var ss = Arrays.asList("hello", "world", "hi", "anita");
         for (var s : ss) {
             cprint.info(s);

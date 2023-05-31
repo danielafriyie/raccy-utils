@@ -12,9 +12,9 @@ public interface Logger {
 
     void error(String msg);
 
-    void error(Exception e);
+    void error(Throwable e);
 
-    default String getErrorMsg(Exception e) {
+    default String getErrorMsg(Throwable e) {
         String msg = e.toString();
         StringBuilder builder = new StringBuilder();
 
