@@ -1,6 +1,9 @@
 package raccy.logger.slf4j;
 
-public class SLF4JLogger implements raccy.logger.Logger{
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+public class SLF4J implements raccy.logger.Logger{
     @Override
     public void info(String msg) {
 
@@ -24,5 +27,10 @@ public class SLF4JLogger implements raccy.logger.Logger{
     @Override
     public void error(Exception e) {
 
+    }
+
+    public static void main(String[] args) {
+        Logger logger = LoggerFactory.getLogger("SampleLogger");
+        logger.info("Hi This is my first SLF4J program");
     }
 }
