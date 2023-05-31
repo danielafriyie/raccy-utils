@@ -12,6 +12,11 @@ public class LazyWriter extends AbstractWriter {
         initWriter();
     }
 
+    public LazyWriter() throws IOException {
+        super();
+        initWriter();
+    }
+
     private void initWriter() throws IOException {
         writer = new BufferedWriter(new FileWriter(getOutputPath()));
     }
@@ -24,7 +29,7 @@ public class LazyWriter extends AbstractWriter {
     @Override
     public void write(String data) {
         try {
-            writer.write(data);
+            writer.write(data + "\n");
         } catch (IOException ignore) {
 
         }

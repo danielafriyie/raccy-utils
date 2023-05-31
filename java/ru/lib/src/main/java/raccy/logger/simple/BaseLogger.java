@@ -9,35 +9,19 @@ import raccy.utils.Utils;
 import raccy.logger.Level;
 import raccy.logger.Logger;
 import raccy.logger.writer.Writer;
-import raccy.logger.writer.LazyWriter;
 
 public abstract class BaseLogger implements Logger {
-    private String logPath;
     private Writer writer;
 
-    public BaseLogger(String logPath, Writer writer) {
-        this.logPath = logPath;
+    public BaseLogger(Writer writer) {
         this.writer = writer;
-    }
-
-    public BaseLogger() throws IOException {
-        createLogPath();
-        this.writer = new LazyWriter(logPath);
-    }
-
-    private void createLogPath() {
-        String baseDir = Paths.get("").toAbsolutePath().toString();
-        String logDir = Utils.joinPath(baseDir, "logs");
-        logPath = Utils.joinPath(logDir, "log.log");
-
-        Utils.makeDir(logDir);
     }
 
     private synchronized void log(Level level, String msg) {
         String now = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd H:m:s,SSS"));
         String t = now + ":" + level.toString() + ":" + msg;
         System.out.println(t);
-        writer.write(t + "\n");
+        writer.write(t);
     }
 
     @Override
