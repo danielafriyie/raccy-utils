@@ -12,13 +12,14 @@ public class Main {
     }
 
     public static void main(String[] args) throws Exception {
+        var cprint = new ColorPrint();
         var ss = Arrays.asList("hello", "world", "hi", "anita");
         for (var s : ss) {
-            ColorPrint.info(s);
-            ColorPrint.warning(s);
-            ColorPrint.success(s);
-            ColorPrint.error(s);
-            ColorPrint.error(new Exception(s));
+            cprint.info(s);
+            cprint.warning(s);
+            cprint.success(s);
+            cprint.error(s);
+            cprint.error(new Exception(s));
         }
     }
 }
