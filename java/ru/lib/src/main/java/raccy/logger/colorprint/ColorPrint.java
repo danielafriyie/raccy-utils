@@ -1,5 +1,6 @@
 package raccy.logger.colorprint;
 
+import java.util.Arrays;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
@@ -48,6 +49,25 @@ public class ColorPrint {
     }
 
     public static void error(Exception e) {
-        error(e.toString(), Color.RED_BOLD);
+        String msg = e.toString();
+        StringBuilder builder = new StringBuilder();
+
+        Arrays.stream(e.getStackTrace()).forEach((elm) -> {
+            String line = elm.toString();
+            String method = elm.getMethodName();
+            String className = elm.getClassName();
+            builder.append(line)
+                    .append("\n")
+                    .append("Class: ")
+                    .append(className)
+                    .append("\n")
+                    .append("Method: ")
+                    .append(method)
+                    .append("\n")
+                    .append(msg)
+                    .append("\n");
+        });
+
+        error(builder.toString(), Color.RED_BOLD);
     }
 }
