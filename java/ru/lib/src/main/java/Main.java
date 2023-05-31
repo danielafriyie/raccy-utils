@@ -7,7 +7,7 @@ import java.io.File;
 import java.nio.file.Paths;
 
 import raccy.logger.colorprint.ColorPrint;
-import raccy.logger.simple.SimpleLogger;
+import raccy.logger.simple.LazyLogger;
 import raccy.utils.Utils;
 
 public class Main {
@@ -19,7 +19,7 @@ public class Main {
     public static void main(String[] args) throws Exception {
 
         System.out.println("Path: " + Paths.get("").toAbsolutePath());
-        var cprint = new SimpleLogger();
+        var cprint = new LazyLogger();
         var ss = Arrays.asList("hello", "world", "hi", "anita");
         for (var s : ss) {
             cprint.info(s);
