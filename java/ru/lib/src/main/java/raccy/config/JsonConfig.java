@@ -26,7 +26,8 @@ import java.io.IOException;
 
 import com.google.gson.Gson;
 
-public class JsonConfig extends BaseConfig{
+public class JsonConfig extends BaseConfig {
+
     public JsonConfig(String configPath) throws Exception {
         super(configPath);
     }
