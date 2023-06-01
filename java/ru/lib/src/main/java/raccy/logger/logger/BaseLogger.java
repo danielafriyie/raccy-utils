@@ -23,7 +23,7 @@ import raccy.logger.Level;
 import raccy.logger.Logger;
 import raccy.logger.writer.Writer;
 
-public abstract class BaseLogger implements Logger {
+public class BaseLogger implements Logger {
     private Writer writer;
 
     public BaseLogger(Writer writer) {
