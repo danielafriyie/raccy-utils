@@ -69,6 +69,16 @@ public class Utils {
         return Path.of(joinPath(parent, child));
     }
 
+    public static String joinPaths(String parent, String ...children) {
+        String output = parent;
+
+        for (String s : children) {
+            output = joinPath(output, s);
+        }
+
+        return output;
+    }
+
     public static String getFileName(String name, String path, boolean isFolder) throws IOException {
         List<Path> files = Files.list(Path.of(path)).toList();
         String[] split = name.split("\\.");
