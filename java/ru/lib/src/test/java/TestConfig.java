@@ -38,7 +38,7 @@ public class TestConfig {
 
     @Test
     public void testPut() {
-        String[][] keys = new String[][] {
+        String[][] keys = new String[][]{
                 {"test1", "Testy1"},
                 {"test2", "Testy2"},
                 {"test3", "Testy3"},
