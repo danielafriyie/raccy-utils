@@ -14,22 +14,25 @@ See the License for the specific language governing permissions and
 limitations under the License.
 */
 
-package raccy.logger.writer;
+package raccy.logger.handler;
 
 import java.io.FileWriter;
 import java.io.BufferedWriter;
 import java.io.IOException;
 
-public class LazyWriter extends AbstractWriter {
+import raccy.logger.Level;
+import raccy.logger.formatter.Formatter;
+
+public class LazyHandler extends AbstractHandler {
     private BufferedWriter writer;
 
-    public LazyWriter(String outputPath) throws IOException {
-        super(outputPath);
+    public LazyHandler(String outputPath, Formatter formatter) throws IOException {
+        super(outputPath, formatter);
         initWriter();
     }
 
-    public LazyWriter() throws IOException {
-        super();
+    public LazyHandler() throws IOException {
+        super(new Formatter("yyyy-MM-dd H:m:s,SSS"));
         initWriter();
     }
 
@@ -43,12 +46,17 @@ public class LazyWriter extends AbstractWriter {
     }
 
     @Override
-    public void write(String data) {
-        try {
-            writer.write(data + "\n");
-        } catch (IOException ignore) {
+    public void write(Level level, String data) {
+        synchronized(this) {
+            try {
+                String msg = formatter.formatMessage(level, data);
+                System.out.println(msg);
+                writer.write(msg + "\n");
+            } catch (IOException ignore) {
 
+            }
         }
+
     }
 
     @Override

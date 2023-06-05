@@ -14,22 +14,24 @@ See the License for the specific language governing permissions and
 limitations under the License.
 */
 
-package raccy.logger.writer;
+package raccy.logger.handler;
 
 import java.io.BufferedWriter;
 import java.io.FileWriter;
 import java.io.IOException;
 
 import raccy.utils.Utils;
+import raccy.logger.Level;
+import raccy.logger.formatter.Formatter;
 
-public class PersistentWriter extends AbstractWriter{
+public class PersistentHandler extends AbstractHandler {
 
-    public PersistentWriter(String outputPath) {
-        super(outputPath);
+    public PersistentHandler(String outputPath, Formatter formatter) {
+        super(outputPath, formatter);
     }
 
-    public PersistentWriter() {
-        super();
+    public PersistentHandler() {
+        super(new Formatter("yyyy-MM-dd H:m:s,SSS"));
     }
 
     @Override
@@ -42,15 +44,21 @@ public class PersistentWriter extends AbstractWriter{
     }
 
     @Override
-    public void write(String data) {
-        String oldData = read();
+    public void write(Level level, String data) {
+        synchronized (this) {
+            String msg = formatter.formatMessage(level, data);
+            System.out.println(msg);
 
-        try (BufferedWriter writer = new BufferedWriter(new FileWriter(getOutputPath()));) {
-            String newData = oldData + data;
-            writer.write(newData);
-        } catch (IOException ignore) {
+            String oldData = read();
 
+            try (BufferedWriter writer = new BufferedWriter(new FileWriter(getOutputPath()));) {
+                String newData = oldData + msg;
+                writer.write(newData);
+            } catch (IOException ignore) {
+
+            }
         }
+
     }
 
     @Override

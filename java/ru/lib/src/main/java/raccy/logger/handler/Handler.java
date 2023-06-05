@@ -14,13 +14,15 @@ See the License for the specific language governing permissions and
 limitations under the License.
 */
 
-package raccy.logger.writer;
+package raccy.logger.handler;
 
-public interface Writer {
+import raccy.logger.Level;
+
+public interface Handler {
 
     String read();
 
-    void write(String data);
+    void write(Level level, String data);
 
     void close();
 }

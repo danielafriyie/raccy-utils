@@ -18,15 +18,16 @@ package raccy.logger.logger;
 
 import java.io.IOException;
 
-import raccy.logger.writer.LazyWriter;
+import raccy.logger.formatter.Formatter;
+import raccy.logger.handler.LazyHandler;
 
 public class LazyLogger extends BaseLogger {
 
     public LazyLogger() throws IOException {
-        super(new LazyWriter());
+        super(new LazyHandler());
     }
 
-    public LazyLogger(String logPath) throws IOException {
-        super(new LazyWriter(logPath));
+    public LazyLogger(String logPath, Formatter formatter) throws IOException {
+        super(new LazyHandler(logPath, formatter));
     }
 }

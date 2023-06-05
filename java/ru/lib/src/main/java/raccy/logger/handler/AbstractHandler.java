@@ -14,21 +14,25 @@ See the License for the specific language governing permissions and
 limitations under the License.
 */
 
-package raccy.logger.writer;
+package raccy.logger.handler;
 
 import java.nio.file.Paths;
 
 import raccy.utils.Utils;
+import raccy.logger.formatter.Formatter;
 
-public abstract class AbstractWriter implements Writer {
+public abstract class AbstractHandler implements Handler {
     private String outputPath;
+    protected Formatter formatter;
 
-    public AbstractWriter(String outputPath) {
+    public AbstractHandler(String outputPath, Formatter formatter) {
         this.outputPath = outputPath;
+        this.formatter = formatter;
     }
 
-    public AbstractWriter() {
+    public AbstractHandler(Formatter formatter) {
         this.outputPath = createLogPath();
+        this.formatter = formatter;
     }
 
     public static String createLogPath() {

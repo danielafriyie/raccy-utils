@@ -16,15 +16,16 @@ limitations under the License.
 
 package raccy.logger.logger;
 
-import raccy.logger.writer.PersistentWriter;
+import raccy.logger.formatter.Formatter;
+import raccy.logger.handler.PersistentHandler;
 
 public class PersistentLogger extends BaseLogger {
 
     public PersistentLogger() {
-        super(new PersistentWriter());
+        super(new PersistentHandler());
     }
 
-    public PersistentLogger(String logPath) {
-        super(new PersistentWriter(logPath));
+    public PersistentLogger(String logPath, Formatter formatter) {
+        super(new PersistentHandler(logPath, formatter));
     }
 }

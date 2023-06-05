@@ -16,25 +16,19 @@ limitations under the License.
 
 package raccy.logger.logger;
 
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
-
 import raccy.logger.Level;
 import raccy.logger.Logger;
-import raccy.logger.writer.Writer;
+import raccy.logger.handler.Handler;
 
 public class BaseLogger implements Logger {
-    private Writer writer;
+    private Handler handler;
 
-    public BaseLogger(Writer writer) {
-        this.writer = writer;
+    public BaseLogger(Handler handler) {
+        this.handler = handler;
     }
 
-    private synchronized void log(Level level, String msg) {
-        String now = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd H:m:s,SSS"));
-        String t = now + ":" + level.toString() + ":" + msg;
-        System.out.println(t);
-        writer.write(t);
+    private void log(Level level, String msg) {
+        handler.write(level, msg);
     }
 
     @Override
@@ -63,6 +57,6 @@ public class BaseLogger implements Logger {
     }
 
     public void close() {
-        writer.close();
+        handler.close();
     }
 }

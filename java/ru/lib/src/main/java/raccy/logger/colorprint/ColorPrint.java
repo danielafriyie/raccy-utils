@@ -16,17 +16,19 @@ limitations under the License.
 
 package raccy.logger.colorprint;
 
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
-
 import raccy.logger.Level;
 import raccy.logger.Logger;
+import raccy.logger.formatter.Formatter;
 
 public class ColorPrint implements Logger {
+    private Formatter formatter;
+
+    public ColorPrint() {
+        this.formatter = new Formatter("yyyy-MM-dd H:m:s,SSS");
+    }
 
     private synchronized void print(Level level, Color color, String msg) {
-        String now = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd H:m:s,SSS"));
-        String t = now + ":" + level.toString() + ":" + msg;
+        String t = formatter.formatMessage(level, msg);
         System.out.println(color + t + Color.RESET);
     }
 
