@@ -115,6 +115,10 @@ public class SeleniumUtils {
         }
     }
 
+    public static void driverOrJsClick(WebDriver driver, String xpath) {
+        driverOrJsClick(driver, xpath, 5, ExpectedConditions::presenceOfElementLocated);
+    }
+
     public static void manualEntry(WebDriver driver,
                                    String xpath,
                                    String text,
@@ -132,7 +136,7 @@ public class SeleniumUtils {
     }
 
     public static void manualEntry(WebDriver driver, String xpath, String text) throws InterruptedException {
-        manualEntry(driver, xpath, text, 10, ExpectedConditions::elementToBeClickable, 500);
+        manualEntry(driver, xpath, text, 10, ExpectedConditions::elementToBeClickable, 50);
     }
 
     public static void enter(WebDriver driver,
