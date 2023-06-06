@@ -1,5 +1,3 @@
-import java.nio.file.Paths;
-
 import org.junit.Test;
 import org.junit.Assert;
 import org.junit.BeforeClass;
@@ -8,17 +6,14 @@ import raccy.utils.Utils;
 import raccy.config.TextConfig;
 import raccy.config.JsonConfig;
 
-public class TestConfig {
-    public static String baseDir;
+public class TestConfig extends BaseTest {
     private static TextConfig textConfig;
     private static JsonConfig jsonConfig;
 
     @BeforeClass
-    public static void setupClass() throws Exception {
-        baseDir = Paths.get("").toAbsolutePath().toString();
-        Stream.out.info("baseDir: " + baseDir);
-        textConfig = new TextConfig(Utils.joinPaths(baseDir, "src", "test", "resources", "config", "config.txt"));
-        jsonConfig = new JsonConfig(Utils.joinPaths(baseDir, "src", "test", "resources", "config", "config.json"));
+    public static void setUpClass() throws Exception {
+        textConfig = new TextConfig(Utils.joinPaths(resourcesDir, "config", "config.txt"));
+        jsonConfig = new JsonConfig(Utils.joinPaths(resourcesDir, "config", "config.json"));
     }
 
     @Test
