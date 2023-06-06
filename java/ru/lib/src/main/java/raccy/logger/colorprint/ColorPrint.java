@@ -21,11 +21,7 @@ import raccy.logger.Logger;
 import raccy.logger.formatter.Formatter;
 
 public class ColorPrint implements Logger {
-    private Formatter formatter;
-
-    public ColorPrint() {
-        this.formatter = new Formatter("yyyy-MM-dd H:m:s,SSS");
-    }
+    private final Formatter formatter = new Formatter("yyyy-MM-dd H:m:s,SSS");
 
     private synchronized void print(Level level, Color color, String msg) {
         String t = formatter.formatMessage(level, msg);
