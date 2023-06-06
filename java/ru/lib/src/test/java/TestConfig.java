@@ -7,7 +7,6 @@ import org.junit.BeforeClass;
 import raccy.utils.Utils;
 import raccy.config.TextConfig;
 import raccy.config.JsonConfig;
-import raccy.logger.colorprint.ColorPrint;
 
 public class TestConfig {
     public static String baseDir;
