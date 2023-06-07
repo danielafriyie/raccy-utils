@@ -24,3 +24,5 @@ out
 raccy_utils.egg-info
 .mypy_cache
 .gradle
+*.gpg
+gradle.properties

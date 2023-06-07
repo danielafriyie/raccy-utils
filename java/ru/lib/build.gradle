@@ -9,6 +9,7 @@ version '0.1.0'
 
 repositories {
     mavenCentral()
+    maven { url 'https://oss.sonatype.org/content/repositories/snapshots/' }
 }
 
 dependencies {
@@ -22,6 +23,68 @@ dependencies {
 java {
     toolchain {
         languageVersion = JavaLanguageVersion.of(17)
+    }
+    withJavadocJar()
+    withSourcesJar()
+}
+
+publishing {
+    publications {
+
+        library(MavenPublication) {
+
+            groupId = 'io.github.danielafriyie'
+            artifactId = 'raccy-utils'
+            version = '0.1.0'
+            from components.java
+
+            pom {
+                name = 'raccy-utils'
+                description = 'A collection of utility functions and classes for python and java.'
+                url = 'https://github.com/danielafriyie/raccy-utils'
+                inceptionYear = '2023'
+
+                licenses {
+                    license {
+                        name = 'Apache License, Version 2.0'
+                        url = 'https://www.apache.org/licenses/LICENSE-2.0'
+                    }
+                }
+                developers {
+                    developer {
+                        id = 'danielafriyie'
+                        name = 'Daniel Afriyie'
+                        email = 'afriyiedaniel1@outlook.com'
+                    }
+                }
+                scm {
+                    connection = 'scm:git:git:github.com/danielafriyie/raccy-utils.git'
+                    developerConnection = 'scm:git:ssh://github.com/danielafriyie/raccy-utils.git'
+                    url = 'https://github.com/danielafriyie/raccy-utils'
+                }
+            }
+        }
+    }
+
+    repositories {
+        maven {
+            name = "OSSRH"
+            url = "https://s01.oss.sonatype.org/service/local/staging/deploy/maven2/"
+            credentials {
+                username = project.properties["username"]
+                password = project.properties["password"]
+            }
+        }
+    }
+}
+
+signing {
+    sign publishing.publications.mavenJava
+}
+
+javadoc {
+    if (JavaVersion.current().isJava9Compatible()) {
+        options.addBooleanOption('html5', true)
     }
 }
 
