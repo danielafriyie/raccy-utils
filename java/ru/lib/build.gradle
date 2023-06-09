@@ -4,11 +4,25 @@ plugins {
     id 'signing'
 }
 
+sourceSets {
+    main {
+        java {
+
+        }
+    }
+    test {
+        java {
+
+        }
+    }
+}
+
 group 'io.github.danielafriyie'
 version '0.1.0'
 
 repositories {
     mavenCentral()
+    maven { url 'https://repo1.maven.org/maven2' }
     maven { url 'https://oss.sonatype.org/content/repositories/snapshots/' }
 }
 
@@ -17,7 +31,7 @@ dependencies {
     implementation 'com.google.code.gson:gson:2.10.1'
     implementation 'org.slf4j:slf4j-api:2.0.7'
     implementation 'org.slf4j:slf4j-simple:2.0.7'
-    testImplementation 'junit:junit: 4.13'
+    testImplementation 'junit:junit:4.13'
 }
 
 java {
@@ -31,7 +45,7 @@ java {
 publishing {
     publications {
 
-        library(MavenPublication) {
+        mavenJava(MavenPublication) {
 
             groupId = 'io.github.danielafriyie'
             artifactId = 'raccy-utils'
