@@ -14,7 +14,7 @@ See the License for the specific language governing permissions and
 limitations under the License.
 */
 
-package raccy.config;
+package raccy.config.json;
 
 import java.util.Map;
 import java.io.File;
@@ -25,6 +25,8 @@ import java.io.BufferedReader;
 import java.io.IOException;
 
 import com.google.gson.Gson;
+
+import raccy.config.BaseConfig;
 
 public class JsonConfig extends BaseConfig {
 

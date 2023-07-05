@@ -14,7 +14,7 @@ See the License for the specific language governing permissions and
 limitations under the License.
 */
 
-package raccy.config;
+package raccy.config.text;
 
 import java.util.Arrays;
 import java.util.List;
@@ -25,6 +25,7 @@ import java.io.BufferedWriter;
 import java.io.IOException;
 
 import raccy.utils.Utils;
+import raccy.config.BaseConfig;
 
 public class TextConfig extends BaseConfig {
 
