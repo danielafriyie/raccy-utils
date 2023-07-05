@@ -47,11 +47,10 @@ public class JsonConfig extends BaseConfig {
     }
 
     @Override
-    public Map<String, String> load() throws Exception {
+    public Map<String, Object> load() throws Exception {
         try (BufferedReader reader = new BufferedReader(new FileReader(getConfigPath()))) {
             Gson gson = new Gson();
-            HashMap config = gson.fromJson(reader, HashMap.class);
-            return config;
+            return gson.fromJson(reader, HashMap.class);
         }
     }
 }

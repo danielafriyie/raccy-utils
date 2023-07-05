@@ -41,7 +41,7 @@ public class TextConfig extends BaseConfig {
     public void save() throws IOException {
         try (BufferedWriter br = new BufferedWriter(new FileWriter(getConfigPath()))) {
             StringBuilder builder = new StringBuilder();
-            Map<String, String> config = getConfig();
+            Map<String, Object> config = getConfig();
             config.forEach((key, value) -> builder.append(key).append("=").append(value).append("\n"));
             String output = builder.toString();
             br.write(output);
@@ -49,9 +49,9 @@ public class TextConfig extends BaseConfig {
     }
 
     @Override
-    public Map<String, String> load() throws IOException {
+    public Map<String, Object> load() throws IOException {
         List<String> data = Utils.readFile(getConfigPath(), "\n");
-        HashMap<String, String> config = new HashMap<>();
+        HashMap<String, Object> config = new HashMap<>();
 
         for (String line : data) {
             String[] split = line.split("=");

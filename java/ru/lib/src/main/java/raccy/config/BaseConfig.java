@@ -20,25 +20,25 @@ import java.util.Map;
 import java.util.function.Function;
 
 public abstract class BaseConfig {
-    private String configPath;
-    private Map<String, String> config;
+    private final String configPath;
+    private final Map<String, Object> config;
 
     public BaseConfig(String configPath) throws Exception{
         this.configPath = configPath;
         this.config = load();
     }
 
-    public static Object cast(String item, Function<String, Object> func) {
+    public static <T, R> R cast(T item, Function<T, R> func) {
         if ((func != null) && (item != null))
             return func.apply(item);
-        return item;
+        return (R) item;
     }
 
     public abstract void save() throws Exception;
 
-    public abstract Map<String, String> load() throws Exception;
+    public abstract Map<String, Object> load() throws Exception;
 
-    public Map<String, String> getConfig() {
+    public Map<String, Object> getConfig() {
         return config;
     }
 
@@ -46,16 +46,16 @@ public abstract class BaseConfig {
         return configPath;
     }
 
-    public synchronized void put(String key, String value) {
+    public synchronized void put(String key, Object value) {
         config.put(key, value);
     }
 
-    public synchronized String get(String key) {
+    public synchronized Object get(String key) {
         return config.get(key);
     }
 
     public Object get(String key, Object default_) {
-        String item = get(key);
+        Object item = get(key);
         if (item != null)
             return item;
         return default_;
