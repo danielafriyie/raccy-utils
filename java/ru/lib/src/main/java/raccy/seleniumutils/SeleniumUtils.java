@@ -169,4 +169,8 @@ public class SeleniumUtils {
     public static List<WebElement> findElemenstByXpath(WebDriver driver, String xpath) {
         return findElementsByXpath(driver, xpath, 10, ExpectedConditions::presenceOfAllElementsLocatedBy);
     }
+    public static List<WebElement> findElemenstByXpath(WebDriver driver, String xpath, int timeout) {
+        return findElementsByXpath(driver, xpath, timeout, ExpectedConditions::presenceOfAllElementsLocatedBy);
+    }
+
 }
