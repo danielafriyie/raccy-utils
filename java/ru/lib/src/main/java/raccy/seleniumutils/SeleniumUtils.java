@@ -119,6 +119,17 @@ public class SeleniumUtils {
         driverOrJsClick(driver, xpath, 5, ExpectedConditions::presenceOfElementLocated);
     }
 
+    public static void click(WebDriver driver,
+                             String xpath,
+                             int timeout,
+                             Function<By, ExpectedCondition<WebElement>> condition) {
+        driverOrJsClick(driver, xpath, timeout, condition);
+    }
+
+    public static void click(WebDriver driver, String xpath) {
+        driverOrJsClick(driver, xpath);
+    }
+
     public static void manualEntry(WebDriver driver,
                                    String xpath,
                                    String text,
@@ -160,9 +171,9 @@ public class SeleniumUtils {
     }
 
     public static List<WebElement> findElementsByXpath(WebDriver driver,
-                                                String xpath,
-                                                int timeout,
-                                                Function<By, ExpectedCondition<List<WebElement>>> condition) {
+                                                       String xpath,
+                                                       int timeout,
+                                                       Function<By, ExpectedCondition<List<WebElement>>> condition) {
         return driverWaits(driver, By.xpath(xpath), timeout, condition);
     }
 
