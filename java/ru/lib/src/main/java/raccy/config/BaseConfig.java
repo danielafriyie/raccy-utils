@@ -21,10 +21,19 @@ import java.util.function.Function;
 
 public abstract class BaseConfig {
     private final String configPath;
-    private final Map<String, Object> config;
+    private Map<String, Object> config;
 
-    public BaseConfig(String configPath) throws Exception{
+    public BaseConfig(String configPath, boolean loadConfig) throws Exception {
         this.configPath = configPath;
+        if (loadConfig)
+            this.config = load();
+    }
+
+    public BaseConfig(String configPath) throws Exception {
+        this(configPath, true);
+    }
+
+    protected void loadConfig() throws Exception {
         this.config = load();
     }
 
