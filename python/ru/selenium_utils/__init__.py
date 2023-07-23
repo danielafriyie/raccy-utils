@@ -190,17 +190,14 @@ def paste(
         secs: Seconds = 10,
         condition: Condition = ec.element_to_be_clickable
 ) -> None:
-    elm: WebElement = find_element_by_xpath(driver, xpath, secs=secs, condition=condition)
+    elm = find_element_by_xpath(driver, xpath, secs=secs, condition=condition)
     pyperclip.copy(text)
-    if sys.platform == 'darwin':
-        ctrl = Keys.COMMAND
-    else:
-        ctrl = Keys.CONTROL
-    actions: ActionChains = ActionChains(driver)
+    ctrl = Keys.COMMAND if sys.platform == 'darwin' else Keys.CONTROL
+    actions = ActionChains(driver)
     actions.move_to_element(elm)
     actions.click()
     actions.key_down(ctrl)
-    actions.send_keys('v')
+    actions.send_keys('V')
     actions.key_up(ctrl)
     actions.perform()
 
@@ -212,4 +209,5 @@ def random_delay(a: typing.Optional[int] = 1, b: typing.Optional[int] = 3) -> No
     time.sleep(sleep_time)
 
 
+click = driver_or_js_click
 driver_wait = find_element_by_xpath
