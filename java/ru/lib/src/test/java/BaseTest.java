@@ -18,7 +18,7 @@ import java.nio.file.Paths;
 
 import org.junit.BeforeClass;
 
-import raccy.utils.Utils;
+import org.raccy.utils.Utils;
 
 public class BaseTest {
     protected static String baseDir;

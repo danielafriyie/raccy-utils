@@ -14,8 +14,18 @@ See the License for the specific language governing permissions and
 limitations under the License.
 */
 
-import org.raccy.logger.colorprint.ColorPrint;
+package org.raccy.logger.logger;
 
-public class Stream {
-    public static final ColorPrint out = new ColorPrint();
+import org.raccy.logger.formatter.Formatter;
+import org.raccy.logger.handler.PersistentHandler;
+
+public class PersistentLogger extends BaseLogger {
+
+    public PersistentLogger() {
+        super(new PersistentHandler());
+    }
+
+    public PersistentLogger(String logPath, Formatter formatter) {
+        super(new PersistentHandler(logPath, formatter));
+    }
 }

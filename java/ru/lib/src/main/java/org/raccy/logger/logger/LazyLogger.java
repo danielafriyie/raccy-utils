@@ -14,8 +14,20 @@ See the License for the specific language governing permissions and
 limitations under the License.
 */
 
-import org.raccy.logger.colorprint.ColorPrint;
+package org.raccy.logger.logger;
 
-public class Stream {
-    public static final ColorPrint out = new ColorPrint();
+import java.io.IOException;
+
+import org.raccy.logger.formatter.Formatter;
+import org.raccy.logger.handler.LazyHandler;
+
+public class LazyLogger extends BaseLogger {
+
+    public LazyLogger() throws IOException {
+        super(new LazyHandler());
+    }
+
+    public LazyLogger(String logPath, Formatter formatter) throws IOException {
+        super(new LazyHandler(logPath, formatter));
+    }
 }

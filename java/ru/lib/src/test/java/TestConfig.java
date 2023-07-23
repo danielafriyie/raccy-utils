@@ -18,9 +18,9 @@ import org.junit.Test;
 import org.junit.Assert;
 import org.junit.BeforeClass;
 
-import raccy.utils.Utils;
-import raccy.config.text.TextConfig;
-import raccy.config.json.JsonConfig;
+import org.raccy.utils.Utils;
+import org.raccy.config.text.TextConfig;
+import org.raccy.config.json.JsonConfig;
 
 public class TestConfig extends BaseTest {
     private static TextConfig textConfig;

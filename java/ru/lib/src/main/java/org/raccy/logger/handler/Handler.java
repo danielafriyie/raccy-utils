@@ -14,8 +14,15 @@ See the License for the specific language governing permissions and
 limitations under the License.
 */
 
-import org.raccy.logger.colorprint.ColorPrint;
+package org.raccy.logger.handler;
 
-public class Stream {
-    public static final ColorPrint out = new ColorPrint();
+import org.raccy.logger.Level;
+
+public interface Handler {
+
+    String read();
+
+    void write(Level level, String data);
+
+    void close();
 }

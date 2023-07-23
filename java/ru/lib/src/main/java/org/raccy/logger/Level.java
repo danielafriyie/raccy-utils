@@ -14,8 +14,22 @@ See the License for the specific language governing permissions and
 limitations under the License.
 */
 
-import org.raccy.logger.colorprint.ColorPrint;
+package org.raccy.logger;
 
-public class Stream {
-    public static final ColorPrint out = new ColorPrint();
+public enum Level {
+    INFO("INFO"),
+    WARNING("WARNING"),
+    SUCCESS("SUCCESS"),
+    ERROR("ERROR");
+
+    private final String level;
+
+    Level(String level) {
+        this.level = level;
+    }
+
+    @Override
+    public String toString() {
+        return level;
+    }
 }

@@ -20,7 +20,7 @@ import org.junit.Test;
 import org.junit.Assert;
 import org.junit.BeforeClass;
 
-import raccy.utils.Utils;
+import org.raccy.utils.Utils;
 
 public class TestUtils extends BaseTest {
     private static String textFilePath;
