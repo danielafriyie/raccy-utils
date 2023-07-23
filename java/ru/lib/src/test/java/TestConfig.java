@@ -14,22 +14,28 @@ See the License for the specific language governing permissions and
 limitations under the License.
 */
 
+import java.util.Map;
+import java.util.HashMap;
+
 import org.junit.Test;
 import org.junit.Assert;
 import org.junit.BeforeClass;
 
 import org.raccy.utils.Utils;
+import org.raccy.config.ini.IniConfig;
 import org.raccy.config.text.TextConfig;
 import org.raccy.config.json.JsonConfig;
 
 public class TestConfig extends BaseTest {
     private static TextConfig textConfig;
     private static JsonConfig jsonConfig;
+    private static IniConfig iniConfig;
 
     @BeforeClass
     public static void setUpClass() throws Exception {
         textConfig = new TextConfig(Utils.joinPaths(resourcesDir, "config", "config.txt"));
         jsonConfig = new JsonConfig(Utils.joinPaths(resourcesDir, "config", "config.json"));
+        iniConfig = new IniConfig(Utils.joinPaths(resourcesDir, "config", "config.ini"));
     }
 
     @Test
@@ -45,8 +51,24 @@ public class TestConfig extends BaseTest {
         Assert.assertEquals(textConfig.get("its not there", "hi, i'm not there"), "hi, i'm not there");
         Assert.assertEquals(jsonConfig.get("its not there", "hi, i'm not there"), "hi, i'm not there");
 
-        Assert.assertEquals(textConfig.get("number", null, Integer::parseInt), 10);
-        Assert.assertEquals(jsonConfig.get("number", null, Integer::parseInt), 10);
+        int tID = textConfig.getInt("integer");
+        double tND = textConfig.getDouble("double");
+        Assert.assertEquals(tID, 10);
+        Assert.assertEquals(tND, 10.23, 0);
+
+        int jID = jsonConfig.getInt("integer");
+        double jND = jsonConfig.getDouble("double");
+        Assert.assertEquals(jID, 10);
+        Assert.assertEquals(jND, 10.23, 0);
+
+
+        Map<String, Object> numbers = iniConfig.getSection("NUMBERS");
+        Assert.assertEquals(numbers.get("integer"), "10");
+        Assert.assertEquals(numbers.get("double"), "10.23");
+        int iID = Integer.parseInt((String) numbers.get("integer"));
+        double iND = Double.parseDouble((String) numbers.get("double"));
+        Assert.assertEquals(iID, 10);
+        Assert.assertEquals(iND, 10.23, 0);
         Stream.out.success("testGet passed!");
     }
 

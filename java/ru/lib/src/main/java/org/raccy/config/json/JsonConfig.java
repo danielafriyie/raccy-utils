@@ -47,6 +47,7 @@ public class JsonConfig extends BaseConfig {
     }
 
     @Override
+    @SuppressWarnings("unchecked")
     public Map<String, Object> load() throws Exception {
         try (BufferedReader reader = new BufferedReader(new FileReader(getConfigPath()))) {
             Gson gson = new Gson();

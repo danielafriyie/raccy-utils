@@ -1,3 +1,19 @@
+/*
+Copyright 2021 Daniel Afriyie
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+    https://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+*/
+
 package org.raccy.config.ini;
 
 import java.io.IOException;
@@ -12,7 +28,7 @@ import org.raccy.utils.Utils;
 import org.raccy.config.BaseConfig;
 
 public class IniConfig extends BaseConfig {
-    private final boolean castNumber;
+    private boolean castNumber;
     private final Map<String, Function<String, Object>> castMap;
 
     public IniConfig(String configPath, boolean castNumber, Map<String, Function<String, Object>> castMap) throws Exception {
@@ -23,7 +39,7 @@ public class IniConfig extends BaseConfig {
     }
 
     public IniConfig(String configPath, Map<String, Function<String, Object>> castMap) throws Exception {
-        this(configPath, true, castMap);
+        this(configPath, false, castMap);
     }
 
     public IniConfig(String configPath) throws Exception {
@@ -42,11 +58,16 @@ public class IniConfig extends BaseConfig {
         return false;
     }
 
+    public void setCastNumber(boolean castNumber) {
+        this.castNumber = castNumber;
+    }
+
     @Override
     public void save() throws Exception {
     }
 
     @Override
+    @SuppressWarnings({"unchecked", "rawtypes"})
     public Map<String, Object> load() throws IOException {
         List<String> data = Utils.readFile(getConfigPath(), "\n");
         Map<String, Object> config = new HashMap<>();
@@ -89,7 +110,17 @@ public class IniConfig extends BaseConfig {
         return config;
     }
 
+    @SuppressWarnings("unchecked")
+    public Map<String, Object> getSection(String section) {
+        return get(section, HashMap.class);
+    }
+
+    public <T> T get(String section, String key, Class<T> cast) {
+        Object item = getSection(section).get(key);
+        return cast.cast(item);
+    }
+
     public Object get(String section, String key) {
-        return ((Map) get(section)).get(key);
+        return get(section, key, Object.class);
     }
 }

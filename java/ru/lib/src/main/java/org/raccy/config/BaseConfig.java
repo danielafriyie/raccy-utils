@@ -37,12 +37,6 @@ public abstract class BaseConfig {
         this.config = load();
     }
 
-    public static <T, R> R cast(T item, Function<T, R> func) {
-        if ((func != null) && (item != null))
-            return func.apply(item);
-        return (R) item;
-    }
-
     public abstract void save() throws Exception;
 
     public abstract Map<String, Object> load() throws Exception;
@@ -59,22 +53,30 @@ public abstract class BaseConfig {
         config.put(key, value);
     }
 
-    public synchronized Object get(String key) {
-        return config.get(key);
+    public synchronized <T> T get(String key, Class<T> cast) {
+        Object item = config.get(key);
+        return cast.cast(item);
+    }
+
+    public Object get(String key) {
+        return get(key, Object.class);
     }
 
     public Object get(String key, Object default_) {
         Object item = get(key);
-        if (item != null)
-            return item;
-        return default_;
+        return item != null ? item : default_;
     }
 
-    public Object get(String key, Object default_, Function<String, Object> func) {
-        Object item = get(key, default_);
-        if (item != null)
-            return cast((String) item, func);
-        return default_;
+    public Number getNumber(String key, Function<String, Number> function) {
+        return function.apply((String) get(key));
+    }
+
+    public int getInt(String key) {
+        return (int) getNumber(key, Integer::parseInt);
+    }
+
+    public double getDouble(String key) {
+        return (double) getNumber(key, Double::parseDouble);
     }
 
     public String toString() {
