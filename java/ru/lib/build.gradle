@@ -18,7 +18,7 @@ sourceSets {
 }
 
 group 'io.github.danielafriyie'
-version '0.2.0'
+version '0.2.1'
 
 repositories {
     mavenCentral()
@@ -49,7 +49,7 @@ publishing {
 
             groupId = 'io.github.danielafriyie'
             artifactId = 'raccy-utils'
-            version = '0.1.0'
+            version = version
             from components.java
 
             pom {
