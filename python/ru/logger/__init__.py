@@ -63,7 +63,7 @@ class Logger:
         _logger.setLevel(logging.DEBUG)
 
         formatter = logging.Formatter(self._fmt)
-        max_bytes = 1048576 * 100
+        max_bytes = 1048576 * 100  # 100mb
         file_handler = handlers.RotatingFileHandler(self._get_log_file(), maxBytes=max_bytes, encoding="utf-8", backupCount=10)
         file_handler.setFormatter(formatter)
         file_handler.setLevel(logging.DEBUG)
