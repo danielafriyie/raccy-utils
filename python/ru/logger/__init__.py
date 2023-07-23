@@ -32,7 +32,7 @@ def logger(
         fmt: typing.Optional[str] = None,
         filename: typing.Optional[Path] = None
 ) -> logging.Logger:
-    lg: Logger = Logger(name, fmt, filename)
+    lg = Logger(name, fmt, filename)
     return lg()
 
 
@@ -51,25 +51,26 @@ class Logger:
         self._root_path: Path = pathlib.Path('.').absolute()
 
     def _get_log_file(self) -> Path:
-        fn: Path = self._filename if self._filename else 'log'
-        log_path: Path = os.path.join(self._root_path, 'logs')
-        log_file: Path = os.path.join(log_path, f'{fn}.log')
+        fn = self._filename if self._filename else 'log'
+        log_path = os.path.join(self._root_path, 'logs')
+        log_file = os.path.join(log_path, f'{fn}.log')
         if not os.path.exists(log_path):
             os.mkdir(os.path.join(log_path))
         return log_file
 
     def _create_logger(self) -> logging.Logger:
-        _logger: logging.Logger = logging.getLogger(self._name)
-        _logger.setLevel(level=logging.DEBUG)
+        _logger = logging.getLogger(self._name)
+        _logger.setLevel(logging.DEBUG)
 
-        formatter: logging.Formatter = logging.Formatter(self._fmt)
-        file_handler: handlers.TimedRotatingFileHandler = handlers.TimedRotatingFileHandler(self._get_log_file(), when="D", interval=30, encoding="utf-8")
+        formatter = logging.Formatter(self._fmt)
+        max_bytes = 1048576 * 100
+        file_handler = handlers.RotatingFileHandler(self._get_log_file(), maxBytes=max_bytes, encoding="utf-8", backupCount=10)
         file_handler.setFormatter(formatter)
-        file_handler.setLevel(logging.INFO)
+        file_handler.setLevel(logging.DEBUG)
 
-        stream_handler: logging.StreamHandler = logging.StreamHandler()
+        stream_handler = logging.StreamHandler()
         stream_handler.setFormatter(formatter)
-        stream_handler.setLevel(logging.INFO)
+        stream_handler.setLevel(logging.DEBUG)
 
         _logger.addHandler(file_handler)
         _logger.addHandler(stream_handler)
@@ -80,7 +81,7 @@ class Logger:
         if self._name in self.__loggers:
             return self.__loggers[self._name]
         else:
-            _logger: logging.Logger = self._create_logger()
+            _logger = self._create_logger()
             self.__loggers[self._name] = _logger
             return _logger
 
@@ -95,9 +96,9 @@ class BaseColorPrint:
             ms = ms[0:3]
             now = f"{t1},{ms}"
             t = f"{now}:{level}:{text}"
-            print(color + t)
+            print(color + t + Fore.RESET)
 
-    def info(self, text: str, color: str = Fore.MAGENTA) -> None:
+    def info(self, text: str, color: str = Fore.CYAN) -> None:
         self._print('INFO', text, color)
 
     def warning(self, text: str, color: str = Fore.YELLOW) -> None:
@@ -120,4 +121,4 @@ class BaseColorPrint:
 
 
 class ColorPrint(BaseColorPrint):
-    mutex: threading.Lock = threading.Lock()
+    mutex = threading.Lock()
