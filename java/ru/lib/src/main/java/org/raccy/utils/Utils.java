@@ -16,13 +16,10 @@ limitations under the License.
 
 package org.raccy.utils;
 
+import java.io.*;
 import java.nio.file.Path;
 import java.util.Arrays;
 import java.util.List;
-import java.io.File;
-import java.io.FileReader;
-import java.io.BufferedReader;
-import java.io.IOException;
 import java.nio.file.Files;
 
 public class Utils {
@@ -58,6 +55,22 @@ public class Utils {
     public static void removeDir(String... paths) throws IOException {
         for (String p : paths) {
             Files.deleteIfExists(Path.of(p));
+        }
+    }
+
+    public static void removeDir(String path, OS os) {
+        try {
+            String cmd = null;
+            switch (os) {
+                case MAC -> {System.out.println("Remove dir mac");}
+                case LINUX -> {System.out.println("Remove dir linux");}
+                case WINDOWS -> {
+                    cmd = String.format("cmd /c rmdir /s /q \"%s\"", path);
+                }
+            }
+            if (cmd != null)
+                Runtime.getRuntime().exec(cmd);
+        } catch (IOException ignore) {
         }
     }
 
@@ -107,5 +120,48 @@ public class Utils {
 
     public static String getFileName(String name, String path) throws IOException {
         return getFileName(name, path, false);
+    }
+
+    public static void write(String path, String data) throws IOException {
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter(path))) {
+            writer.write(data);
+        }
+    }
+
+    public static void write(String path, List<String> list) throws IOException {
+        write(path, String.join("\n", list));
+    }
+
+    public static void append(String path, String data) throws IOException {
+        String oldData = null;
+        try {
+            oldData = readFile(path);
+        } catch (IOException ignore) {}
+
+        String output;
+        if (oldData == null) {
+            output = data;
+        } else {
+            output = String.format("%s\n%s", oldData, data);
+        }
+
+        write(path, output);
+    }
+
+    public static void append(String path, List<String> list) throws IOException {
+        append(path, String.join("\n", list));
+    }
+
+    public static OS getOS() {
+        String o = System.getProperty("os.name").strip().toLowerCase();
+        if (o.contains("win")) {
+            return OS.WINDOWS;
+        } else if (o.contains("mac")) {
+            return OS.MAC;
+        } else if ((o.contains("nix")) || (o.contains("nux")) || (o.contains("aix")) || (o.contains("lin"))) {
+            return OS.LINUX;
+        } else {
+            throw new RuntimeException(String.format("OS not recognized: '%s'!", o));
+        }
     }
 }
