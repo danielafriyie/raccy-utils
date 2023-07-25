@@ -32,9 +32,9 @@ public abstract class Nopecha implements Solver {
         this.apiKey = apiKey;
         this.type = type;
         this.logger = logger != null ? logger : LogManager.getLogger();
-        this.adapter = new RestAdapter(logger);
         this.retries = retries;
         this.retryWaitTime = retryWaitTime * 1000;
+        this.adapter = new RestAdapter(this.logger);
     }
 
     @Override
