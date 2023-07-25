@@ -12,7 +12,7 @@ public interface Solver {
 
     Map<String, Object> getSolution() throws IOException ;
 
-    static String imageToBase64(String image) throws IOException {
+    default String imageToBase64(String image) throws IOException {
         byte[] bytes = Files.readAllBytes(Paths.get(image));
         return Base64.getEncoder().encodeToString(bytes);
     }
