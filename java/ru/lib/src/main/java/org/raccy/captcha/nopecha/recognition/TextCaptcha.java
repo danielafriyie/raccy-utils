@@ -2,10 +2,7 @@ package org.raccy.captcha.nopecha.recognition;
 
 import java.util.Map;
 import java.util.HashMap;
-import java.util.Base64;
 import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Paths;
 
 import okhttp3.Request;
 import okhttp3.Response;
@@ -34,8 +31,7 @@ public class TextCaptcha extends Nopecha {
     }
 
     public void setImage(String image) throws IOException {
-        byte[] bytes = Files.readAllBytes(Paths.get(image));
-        this.image = Base64.getEncoder().encodeToString(bytes);
+        this.image = imageToBase64(image);
     }
 
     public void setImageURL(String url) {
