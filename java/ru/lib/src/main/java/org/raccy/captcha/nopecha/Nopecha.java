@@ -6,11 +6,14 @@ import org.apache.logging.log4j.Logger;
 import org.apache.logging.log4j.LogManager;
 
 import org.raccy.captcha.Solver;
+import org.raccy.captcha.Method;
+import org.raccy.captcha.RestAdapter;
 
 public abstract class Nopecha implements Solver {
     protected final String apiKey;
     protected final String type;
     protected final Logger logger;
+    protected final RestAdapter adapter;
 
     protected final String BASE_URL = "https://api.nopecha.com/";
 
@@ -18,6 +21,7 @@ public abstract class Nopecha implements Solver {
         this.apiKey = apiKey;
         this.type = type;
         this.logger = logger != null ? logger : LogManager.getLogger();
+        this.adapter = new RestAdapter(logger);
     }
 
     @Override
