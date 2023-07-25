@@ -27,7 +27,7 @@ public class TextCaptcha extends Nopecha {
     }
 
     public TextCaptcha(String apiKey) {
-        this(apiKey, null, 6, 20);
+        this(apiKey, null);
     }
 
     public void setImage(String image) throws IOException {

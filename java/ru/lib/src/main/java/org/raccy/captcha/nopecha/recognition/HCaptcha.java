@@ -30,7 +30,7 @@ public class HCaptcha extends Nopecha {
     }
 
     public HCaptcha(String apiKey) {
-        this(apiKey, null, 6, 20);
+        this(apiKey, null);
     }
 
     public void setTask(String task) {
