@@ -49,7 +49,7 @@ public abstract class Nopecha implements Solver {
         this.type = type;
         this.logger = logger != null ? logger : LogManager.getLogger();
         this.retries = retries;
-        this.retryWaitTime = retryWaitTime * 1000;
+        this.retryWaitTime = retryWaitTime;
         this.adapter = new RestAdapter(this.logger);
     }
 
@@ -83,7 +83,7 @@ public abstract class Nopecha implements Solver {
                     if (message.toLowerCase().contains("incomplete")) {
                         try {
                             logger.debug(String.format("Waiting for %s seconds to make the next request ...", retryWaitTime));
-                            Thread.sleep(retryWaitTime);
+                            Thread.sleep(retryWaitTime * 1000);
                         } catch (InterruptedException ignore) {
 
                         }
