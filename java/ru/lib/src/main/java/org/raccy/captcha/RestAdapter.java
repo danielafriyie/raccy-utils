@@ -18,7 +18,7 @@ public class RestAdapter {
         this.client = new OkHttpClient();
     }
 
-    private Response request(Method method, String url, Request request) throws IOException {
+    public Response request(Method method, String url, Request request) throws IOException {
         logger.debug(String.format("Making request, method: %s, url: %s", method, url));
         return client.newCall(request).execute();
     }
