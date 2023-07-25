@@ -39,6 +39,7 @@ public abstract class Nopecha implements Solver {
     protected final RestAdapter adapter;
     protected final int retries;
     protected final int retryWaitTime;  // in seconds
+    protected final int retryWaitTimeInMillis;
 
     protected final String BASE_URL = "https://api.nopecha.com/";
     protected static final Gson gson = new Gson();
@@ -50,6 +51,7 @@ public abstract class Nopecha implements Solver {
         this.logger = logger != null ? logger : LogManager.getLogger();
         this.retries = retries;
         this.retryWaitTime = retryWaitTime;
+        this.retryWaitTimeInMillis = retryWaitTime * 1000;
         this.adapter = new RestAdapter(this.logger);
     }
 
@@ -83,7 +85,7 @@ public abstract class Nopecha implements Solver {
                     if (message.toLowerCase().contains("incomplete")) {
                         try {
                             logger.debug(String.format("Waiting for %s seconds to make the next request ...", retryWaitTime));
-                            Thread.sleep(retryWaitTime * 1000);
+                            Thread.sleep(retryWaitTimeInMillis);
                         } catch (InterruptedException ignore) {
 
                         }
