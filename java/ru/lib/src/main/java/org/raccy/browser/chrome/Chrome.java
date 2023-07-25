@@ -86,6 +86,19 @@ public class Chrome {
     private static final OS os = Utils.getOS();
     private static int port = 9924;
     private static String remoteAddress = "127.0.0.1:";
+    private static int profileIndex;
+    private static final String profilesDir = Utils.joinPath(System.getProperty("user.dir"), ".profiles");
+    private static final String profileIndexPath = Utils.joinPath(profilesDir, "index.txt");
+
+    static {
+        Utils.makeDir(profilesDir);
+        try {
+            profileIndex = Integer.parseInt(Utils.readFile(profileIndexPath).strip());
+        } catch (Exception ignore) {
+            profileIndex = 1;
+        }
+
+    }
 
     private Chrome() {}
 
@@ -93,6 +106,13 @@ public class Chrome {
         int p = port;
         port++;
         return p;
+    }
+
+    private static synchronized String getProfile() throws IOException {
+        String profile = Utils.joinPath(profilesDir, String.format("profile-%s", profileIndex));;
+        profileIndex++;
+        Utils.write(profileIndexPath, String.valueOf(profileIndex));
+        return profile;
     }
 
     private static void openBrowserWindows(String cmd) throws IOException {
@@ -184,6 +204,16 @@ public class Chrome {
         options.setExperimentalOption("debuggerAddress", debuggerAddress.address());
 
         return new ChromeDriver(service, options);
+    }
+
+    public static ChromeDriver getDriver(DebuggerAddress debuggerAddress) throws IOException {
+        String profile = getProfile();
+        DriverBuilder builder = new DriverBuilder(debuggerAddress.port(), profile);
+        return getDriver(builder, debuggerAddress);
+    }
+
+    public static ChromeDriver getDriver() throws IOException {
+        return getDriver(getDebuggerAddress());
     }
 
     public static void closeBrowser(WebDriver driver, String port) {

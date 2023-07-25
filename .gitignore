@@ -21,6 +21,7 @@ dist
 build
 bunny
 out
+.profiles
 raccy_utils.egg-info
 .mypy_cache
 .gradle
