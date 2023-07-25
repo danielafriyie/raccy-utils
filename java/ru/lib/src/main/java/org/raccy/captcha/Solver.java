@@ -12,8 +12,8 @@ public interface Solver {
 
     Map<String, Object> getSolution() throws IOException ;
 
-    default String imageToBase64(String image) throws IOException {
-        byte[] bytes = Files.readAllBytes(Paths.get(image));
+    default String fileToBase64(String file) throws IOException {
+        byte[] bytes = Files.readAllBytes(Paths.get(file));
         return Base64.getEncoder().encodeToString(bytes);
     }
 }

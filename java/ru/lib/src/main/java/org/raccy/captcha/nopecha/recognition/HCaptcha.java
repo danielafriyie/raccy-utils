@@ -39,7 +39,7 @@ public class HCaptcha extends Nopecha {
 
     public void addImage(String... images) throws IOException {
         for (String img : images)
-            this.images.add(imageToBase64(img));
+            this.images.add(fileToBase64(img));
     }
 
     public void addImageURL(String... URLs) {

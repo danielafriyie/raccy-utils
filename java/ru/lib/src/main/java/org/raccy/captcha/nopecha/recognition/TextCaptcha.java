@@ -31,7 +31,7 @@ public class TextCaptcha extends Nopecha {
     }
 
     public void setImage(String image) throws IOException {
-        this.image = imageToBase64(image);
+        this.image = fileToBase64(image);
     }
 
     public void setImageURL(String url) {
