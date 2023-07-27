@@ -27,3 +27,4 @@ raccy_utils.egg-info
 .gradle
 *.gpg
 gradle.properties
+*.xml
