@@ -1021,7 +1021,7 @@ public class RandomUAChrome {
             "Mozilla/5.0 (Windows; Windows NT 6.0; Win64; x64) AppleWebKit/537.45 (KHTML, like Gecko) Chrome/54.0.2298.259 Safari/537",
             "Mozilla/5.0 (Windows; U; Windows NT 6.0; WOW64; en-US) AppleWebKit/603.41 (KHTML, like Gecko) Chrome/51.0.1047.175 Safari/536"
     };
-    private static final int length = userAgents.length;
+    private static final int length = userAgents.length - 1;
 
     private RandomUAChrome() {
     }
