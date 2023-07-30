@@ -108,13 +108,6 @@ public class Chrome {
         return p;
     }
 
-    private static synchronized String getProfile() throws IOException {
-        String profile = Utils.joinPath(profilesDir, String.format("profile-%s", profileIndex));;
-        profileIndex++;
-        Utils.write(profileIndexPath, String.valueOf(profileIndex));
-        return profile;
-    }
-
     private static void openBrowserWindows(String cmd) throws IOException {
         Runtime.getRuntime().exec(new String[]{"cmd", "/c", cmd});
     }
@@ -172,6 +165,13 @@ public class Chrome {
 
     private static void closeLinuxProcess(String port) {
 
+    }
+
+    public static synchronized String getProfile() throws IOException {
+        String profile = Utils.joinPath(profilesDir, String.format("profile-%s", profileIndex));;
+        profileIndex++;
+        Utils.write(profileIndexPath, String.valueOf(profileIndex));
+        return profile;
     }
 
     public static String getPID() {
