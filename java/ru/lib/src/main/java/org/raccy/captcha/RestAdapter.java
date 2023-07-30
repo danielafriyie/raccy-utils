@@ -28,6 +28,7 @@ import com.google.gson.Gson;
 public class RestAdapter {
     protected final Logger logger;
     protected final OkHttpClient client;
+    private static final Gson gson = new Gson();
 
     public RestAdapter(Logger logger) {
         this.logger = logger != null ? logger : LogManager.getLogger();
@@ -42,7 +43,7 @@ public class RestAdapter {
     public static <T> T toJSON(Response response, Class<T> klass) throws IOException {
         @SuppressWarnings("all")
         String body = response.body().string();
-        return new Gson().fromJson(body, klass);
+        return gson.fromJson(body, klass);
     }
 }
 
