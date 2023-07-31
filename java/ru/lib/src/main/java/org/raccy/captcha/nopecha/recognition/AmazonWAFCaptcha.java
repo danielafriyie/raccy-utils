@@ -49,6 +49,10 @@ public class AmazonWAFCaptcha extends Nopecha {
         this.audio = fileToBase64(audio);
     }
 
+    public void setBase64Audio(String audio) {
+        this.audio = audio;
+    }
+
     @Override
     @SuppressWarnings("unchecked")
     public Map<String, Object> submitRequest() throws IOException {

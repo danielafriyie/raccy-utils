@@ -50,6 +50,10 @@ public class TextCaptcha extends Nopecha {
         this.image = fileToBase64(image);
     }
 
+    public void setBase64Image(String image) {
+        this.image = image;
+    }
+
     public void setImageURL(String url) {
         this.imageURL = url;
     }

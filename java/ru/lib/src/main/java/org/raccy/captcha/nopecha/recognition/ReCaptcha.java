@@ -59,11 +59,18 @@ public class ReCaptcha extends Nopecha {
     }
 
     public void addImage(String... images) throws IOException {
+        this.images.clear();
         for (String img : images)
             this.images.add(fileToBase64(img));
     }
 
+    public void addBase64Image(String... images) {
+        this.images.clear();
+        this.images.addAll(Arrays.asList(images));
+    }
+
     public void addImageURL(String... URLs) {
+        this.imageURLs.clear();
         this.imageURLs.addAll(Arrays.asList(URLs));
     }
 

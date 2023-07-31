@@ -49,6 +49,10 @@ public class ArkoseFunCaptcha extends Nopecha {
         this.image = fileToBase64(image);
     }
 
+    public void setBase64Image(String image) {
+        this.image = image;
+    }
+
     public void setTask(String task) {
         this.task = task;
     }
