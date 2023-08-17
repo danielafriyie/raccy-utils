@@ -14,15 +14,18 @@ See the License for the specific language governing permissions and
 limitations under the License.
 """
 import os
-import shutil
-import errno
+import re
 import stat
+import errno
+import shutil
 import typing
 import threading
 
 from ru.annotations import Path
 
-_MUTEX: threading.Lock = threading.Lock()
+_MUTEX = threading.Lock()
+_PATTERN = re.compile(r"[0-9]+")
+_FILENAMES: dict[str, int] = {}  # cache to keep track of filenames
 
 Func = typing.Callable[..., typing.Any]
 
@@ -39,17 +42,17 @@ def get_data(
     :param split_char: character you want to split the data on
     :param filter_blanks: remove empty strings if split=True
     Example:
-    >>>data = get_data('file.txt', split=True, split_char=",")
+    >>>data = get_data("file.txt", split=True, split_char=",")
     >>>print(data)
     [1, 2, 3, 4]
     """
-    with open(fn, encoding='utf-8') as f:
+    with open(fn, encoding="utf-8") as f:
         data = f.read()
         if split:
             if split_char:
                 data_split = data.split(split_char)
                 if filter_blanks:
-                    data_split = [s.strip() for s in data_split if s.strip() != '']
+                    data_split = [s.strip() for s in data_split if s.strip() != ""]
                     return data_split
                 return data_split
     return data
@@ -61,23 +64,41 @@ def mk_dir(*paths: Path) -> None:
             os.makedirs(p, exist_ok=True)
 
 
+def key(s: str) -> int:
+    try:
+        return int("".join(_PATTERN.findall(str(s))))
+    except (ValueError, TypeError):
+        return 0
+
+
 def get_filename(name: str, path: Path, is_folder: typing.Optional[bool] = False) -> Path:
     with _MUTEX:
-        files: list = os.listdir(path)
-        split: list = name.split('.')
+        split = name.split(".")
         if is_folder is False:
             ext = f".{split.pop(-1)}"
-            fn = ''.join(split)
+            fn = "".join(split)
         else:
             fn = name
-            ext = ''
-        counter = 1
-        while True:
-            if name not in files:
-                files.append(name)
-                return os.path.join(path, name)
-            name = f"{fn}({counter}){ext}"
-            counter += 1
+            ext = ""
+
+        results = _FILENAMES.get(fn, None)
+        if results is not None:
+            n = results + 1
+            _FILENAMES[fn] = n
+            return os.path.join(path, f"{fn}({n}){ext}")
+
+        filename = os.path.join(path, name)
+        if not os.path.exists(filename):
+            _FILENAMES[fn] = 0
+            return filename
+
+        lower = fn.lower()
+        files = [f for f in os.listdir(path) if lower in f.lower()]
+        files.sort(key=key, reverse=True)
+        f0 = files[0]
+        n = key(f0) + 1
+        _FILENAMES[fn] = n
+        return os.path.join(path, f"{fn}({n}){ext}")
 
 
 def handle_remove_read_only(func: typing.Callable[[Path], None], path: Path, exc: typing.Sequence[typing.Any]) -> None:
