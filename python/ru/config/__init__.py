@@ -19,8 +19,9 @@ import typing
 import threading
 
 from ru.utils import get_data
+from ru.constants import constants
+from ru.hints import Cast, Path, Config, OpenPath
 from ru.exceptions.exceptions import ConfigKeyError, ConfigFileNotFoundError
-from ru.annotations import Cast, Path, Config, OpenPath
 
 
 class BaseConfig(abc.ABC):
@@ -38,7 +39,7 @@ class BaseConfig(abc.ABC):
         return self._config
 
     @abc.abstractmethod
-    def save(self, filename: OpenPath = 'config.txt', encoding: typing.Optional[str] = 'utf-8') -> None:
+    def save(self, filename: OpenPath = "config.txt", encoding: typing.Optional[str] = constants.ENCODING) -> None:
         pass
 
     @abc.abstractmethod
@@ -65,7 +66,7 @@ class BaseConfig(abc.ABC):
 
     def get_as_tupple(self, item: str, cast: Cast = None) -> typing.Tuple[typing.Any, ...]:
         with self._mutex:
-            items: list = self._config[item].split(',')
+            items: list = self._config[item].split(",")
             if cast is None:
                 return tuple(items)
             return tuple(self._cast(val, cast) for val in items)
@@ -97,41 +98,41 @@ class BaseConfig(abc.ABC):
 
 class JsonConfig(BaseConfig):
 
-    def __init__(self, config_path: Path = 'config.json') -> None:
+    def __init__(self, config_path: Path = "config.json") -> None:
         super().__init__(config_path)
 
     def load_config(self) -> Config:
-        with open(self.CONFIG_PATH, encoding='utf-8') as f:
+        with open(self.CONFIG_PATH, encoding=constants.ENCODING) as f:
             config: Config = json.load(f)
         return config
 
-    def save(self, filename: OpenPath = 'config.txt', encoding: typing.Optional[str] = 'utf-8') -> None:
-        with open(filename, 'w', encoding=encoding) as f:
+    def save(self, filename: OpenPath = "config.txt", encoding: typing.Optional[str] = constants.ENCODING) -> None:
+        with open(filename, "w", encoding=encoding) as f:
             json.dump(self._config, f, indent=4)
 
 
 class TextConfig(BaseConfig):
 
-    def __init__(self, config_path: Path = 'config.txt') -> None:
+    def __init__(self, config_path: Path = "config.txt") -> None:
         super().__init__(config_path)
 
     def load_config(self) -> Config:
         config: dict = {}
-        data = get_data(self.CONFIG_PATH, split=True, split_char='\n', filter_blanks=True)
+        data = get_data(self.CONFIG_PATH, split=True, split_char="\n", filter_blanks=True)
         for d in data:
             try:
-                split = d.split('=')
+                split = d.split("=")
                 key = split.pop(0)
-                val = '='.join(split)
+                val = "=".join(split)
                 config[key] = val
             except ValueError:
                 pass
         return config
 
-    def save(self, filename: OpenPath = 'config.txt', encoding: typing.Optional[str] = 'utf-8') -> None:
-        with open(filename, 'w', encoding=encoding) as f:
+    def save(self, filename: OpenPath = "config.txt", encoding: typing.Optional[str] = constants.ENCODING) -> None:
+        with open(filename, "w", encoding=encoding) as f:
             len_config: int = len(self._config) - 1
             for idx, key in enumerate(self._config):
                 f.write(f"{key}={self._config[key]}")
                 if idx < len_config:
-                    f.write('\n')
+                    f.write("\n")

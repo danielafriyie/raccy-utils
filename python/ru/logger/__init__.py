@@ -24,7 +24,8 @@ from datetime import datetime as dt
 
 from colorama import Fore
 
-from ru.annotations import Path
+from ru.hints import Path
+from ru.constants import constants
 
 
 def logger(
@@ -46,14 +47,14 @@ class Logger:
             filename: typing.Optional[Path] = None
     ) -> None:
         self._name = name if name else __name__
-        self._fmt = fmt if fmt else '%(asctime)s:%(levelname)s:%(message)s'
+        self._fmt = fmt if fmt else "%(asctime)s:%(levelname)s:%(message)s"
         self._filename = filename
-        self._root_path: Path = pathlib.Path('.').absolute()
+        self._root_path: Path = pathlib.Path(".").absolute()
 
     def _get_log_file(self) -> Path:
-        fn = self._filename if self._filename else 'log'
-        log_path = os.path.join(self._root_path, 'logs')
-        log_file = os.path.join(log_path, f'{fn}.log')
+        fn = self._filename if self._filename else "log"
+        log_path = os.path.join(self._root_path, "logs")
+        log_file = os.path.join(log_path, f"{fn}.log")
         if not os.path.exists(log_path):
             os.mkdir(os.path.join(log_path))
         return log_file
@@ -64,7 +65,7 @@ class Logger:
 
         formatter = logging.Formatter(self._fmt)
         max_bytes = 1048576 * 100  # 100mb
-        file_handler = handlers.RotatingFileHandler(self._get_log_file(), maxBytes=max_bytes, encoding="utf-8", backupCount=10)
+        file_handler = handlers.RotatingFileHandler(self._get_log_file(), maxBytes=max_bytes, encoding=constants.ENCODING, backupCount=10)
         file_handler.setFormatter(formatter)
         file_handler.setLevel(logging.DEBUG)
 
@@ -91,28 +92,28 @@ class BaseColorPrint:
 
     def _print(self, level: str, text: str, color: str) -> None:
         with self.mutex:
-            n = dt.now().strftime('%Y-%m-%d %H:%M:%S,%f')
-            t1, ms = n.split(',')
+            n = dt.now().strftime("%Y-%m-%d %H:%M:%S,%f")
+            t1, ms = n.split(",")
             ms = ms[0:3]
             now = f"{t1},{ms}"
             t = f"{now}:{level}:{text}"
             print(color + t + Fore.RESET)
 
     def info(self, text: str, color: str = Fore.CYAN) -> None:
-        self._print('INFO', text, color)
+        self._print("INFO", text, color)
 
     def warning(self, text: str, color: str = Fore.YELLOW) -> None:
-        self._print('WARNING', text, color)
+        self._print("WARNING", text, color)
 
     def success(self, text: str, color: str = Fore.GREEN) -> None:
-        self._print('SUCCESS', text, color)
+        self._print("SUCCESS", text, color)
 
     def error(self, error: typing.Union[str, BaseException], color: str = Fore.RED) -> None:
         if isinstance(error, BaseException):
             msg = self.get_error_message(error)
-            self._print('ERROR', msg, color)
+            self._print("ERROR", msg, color)
         else:
-            self._print('ERROR', error, color)
+            self._print("ERROR", error, color)
 
     @staticmethod
     def get_error_message(e: BaseException) -> str:

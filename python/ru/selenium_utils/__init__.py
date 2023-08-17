@@ -27,7 +27,9 @@ try:
     from selenium.webdriver.common.by import By
     from selenium.webdriver.common.keys import Keys
     from selenium.common.exceptions import (
-        TimeoutException, WebDriverException, ElementClickInterceptedException,
+        TimeoutException,
+        WebDriverException,
+        ElementClickInterceptedException,
         StaleElementReferenceException
     )
 except ImportError:
@@ -54,7 +56,7 @@ def window_scroll_to(driver: WebDriver, loc: typing.Union[int, float]) -> None:
 
 
 def scroll_into_view(driver: WebDriver, element: WebElement, offset: typing.Optional[int] = 200) -> None:
-    window_scroll_to(driver, element.location['y'] - offset)
+    window_scroll_to(driver, element.location["y"] - offset)
 
 
 def scroll_into_view_js(driver: WebDriver, element: WebElement) -> None:
@@ -192,12 +194,12 @@ def paste(
 ) -> None:
     elm = find_element_by_xpath(driver, xpath, secs=secs, condition=condition)
     pyperclip.copy(text)
-    ctrl = Keys.COMMAND if sys.platform == 'darwin' else Keys.CONTROL
+    ctrl = Keys.COMMAND if sys.platform == "darwin" else Keys.CONTROL
     actions = ActionChains(driver)
     actions.move_to_element(elm)
     actions.click()
     actions.key_down(ctrl)
-    actions.send_keys('V')
+    actions.send_keys("V")
     actions.key_up(ctrl)
     actions.perform()
 

@@ -13,15 +13,5 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
 """
-from .config import JsonConfig, TextConfig
-from .logger import logger, ColorPrint
 
-__version__ = "0.3.13"
-
-__all__ = [
-    "JsonConfig",
-    "TextConfig",
-    "logger",
-    "ColorPrint",
-    "__version__"
-]
+ENCODING = "utf-8"

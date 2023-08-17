@@ -21,7 +21,8 @@ import shutil
 import typing
 import threading
 
-from ru.annotations import Path
+from ru.hints import Path
+from ru.constants import constants
 
 _MUTEX = threading.Lock()
 _PATTERN = re.compile(r"[0-9]+")
@@ -46,7 +47,7 @@ def get_data(
     >>>print(data)
     [1, 2, 3, 4]
     """
-    with open(fn, encoding="utf-8") as f:
+    with open(fn, encoding=constants.ENCODING) as f:
         data = f.read()
         if split:
             if split_char:
