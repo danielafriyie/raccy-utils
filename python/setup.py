@@ -17,15 +17,17 @@ import typing
 import setuptools
 from ru import __version__
 
-with open('README.md', 'r', encoding='utf-8') as f:
+with open("README.md", "r", encoding="utf-8") as f:
     long_des: str = f.read()
 
 install_requires: typing.List[str] = [
-    'colorama'
+    "colorama",
+    "pyperclip"
 ]
 
 include: typing.Tuple[str, ...] = (
-    'ru', 'ru.*'
+    "ru",
+    "ru.*"
 )
 
 setuptools.setup(
@@ -34,20 +36,20 @@ setuptools.setup(
     description="A collection of utility functions, and classes.",
     long_description=long_des,
     long_description_content_type="text/markdown",
-    author='Daniel Afriyie',
-    author_email='danielafriyie98@gmail.com',
+    author="Daniel Afriyie",
+    author_email="danielafriyie98@gmail.com",
     url="https://github.com/danielafriyie/raccy-utils",
-    license='Apache License, Version 2.0',
+    license="Apache License, Version 2.0",
     classifiers=[
-        'Programming Language :: Python',
-        'Programming Language :: Python :: 3.7',
-        'Programming Language :: Python :: 3.8',
-        'Programming Language :: Python :: 3.9',
+        "Programming Language :: Python",
+        "Programming Language :: Python :: 3.7",
+        "Programming Language :: Python :: 3.8",
+        "Programming Language :: Python :: 3.9",
         "Intended Audience :: Developers",
         "Operating System :: OS Independent",
-        'Topic :: Software Development :: Libraries :: Application Frameworks',
-        'Topic :: Software Development :: Libraries :: Python Modules',
-        'Development Status :: 5 - Production/Stable'
+        "Topic :: Software Development :: Libraries :: Application Frameworks",
+        "Topic :: Software Development :: Libraries :: Python Modules",
+        "Development Status :: 5 - Production/Stable"
     ],
     packages=setuptools.find_packages(include=include),
     install_requires=install_requires,
