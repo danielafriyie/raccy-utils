@@ -14,14 +14,15 @@ See the License for the specific language governing permissions and
 limitations under the License.
 """
 from .config import JsonConfig, TextConfig
-from .logger import logger, ColorPrint
+from .logger import logger, ColorPrint, Logger
 
 __version__ = "0.4.1"
 
 __all__ = [
+    "logger",
+    "Logger",
     "JsonConfig",
     "TextConfig",
-    "logger",
     "ColorPrint",
     "__version__"
 ]

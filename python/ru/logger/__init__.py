@@ -28,15 +28,6 @@ from ru.hints import Path
 from ru.constants import constants
 
 
-def logger(
-        name: typing.Optional[str] = None,
-        fmt: typing.Optional[str] = None,
-        filename: typing.Optional[Path] = None
-) -> logging.Logger:
-    lg = Logger(name, fmt, filename)
-    return lg()
-
-
 class Logger:
     __loggers: typing.Dict[str, logging.Logger] = {}
 
@@ -86,6 +77,14 @@ class Logger:
             self.__loggers[self._name] = _logger
             return _logger
 
+    @staticmethod
+    def get_logger(
+            name: typing.Optional[str] = None,
+            fmt: typing.Optional[str] = None,
+            filename: typing.Optional[Path] = None
+    ) -> logging.Logger:
+        return Logger(name, fmt, filename)()
+
 
 class BaseColorPrint:
     mutex: threading.Lock
@@ -117,9 +116,12 @@ class BaseColorPrint:
 
     @staticmethod
     def get_error_message(e: BaseException) -> str:
-        msg = ''.join(traceback.format_exception(type(e), e, e.__traceback__))
+        msg = "".join(traceback.format_exception(type(e), e, e.__traceback__))
         return msg
 
 
 class ColorPrint(BaseColorPrint):
     mutex = threading.Lock()
+
+
+logger = Logger.get_logger

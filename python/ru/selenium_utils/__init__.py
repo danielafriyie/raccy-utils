@@ -43,15 +43,17 @@ except ImportError:
                   "Install it before using this module!\npip3 install pyperclip")
     raise
 
-Element = typing.Union[WebElement, typing.List[WebElement]]
-Condition = typing.Optional[typing.Callable[[typing.Tuple[str, str]], typing.Any]]
-Seconds = typing.Optional[typing.Union[int, float]]
+
 Args = typing.Any
 Kwargs = typing.Any
 Action = typing.Optional[str]
+Number = typing.Union[int, float]
+Seconds = typing.Optional[Number]
+Element = typing.Union[WebElement, typing.List[WebElement]]
+Condition = typing.Optional[typing.Callable[[typing.Tuple[str, str]], typing.Any]]
 
 
-def window_scroll_to(driver: WebDriver, loc: typing.Union[int, float]) -> None:
+def window_scroll_to(driver: WebDriver, loc: Number) -> None:
     driver.execute_script(f"window.scrollTo(0, {loc});")
 
 
@@ -190,7 +192,8 @@ def paste(
         xpath: str,
         text: str,
         secs: Seconds = 10,
-        condition: Condition = ec.element_to_be_clickable
+        condition: Condition = ec.element_to_be_clickable,
+        paste_key: typing.Optional[str] = "V"
 ) -> None:
     elm = find_element_by_xpath(driver, xpath, secs=secs, condition=condition)
     pyperclip.copy(text)
@@ -199,7 +202,7 @@ def paste(
     actions.move_to_element(elm)
     actions.click()
     actions.key_down(ctrl)
-    actions.send_keys("V")
+    actions.send_keys(paste_key)
     actions.key_up(ctrl)
     actions.perform()
 

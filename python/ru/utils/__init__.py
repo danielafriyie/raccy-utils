@@ -26,7 +26,7 @@ from ru.constants import constants
 
 _MUTEX = threading.Lock()
 _PATTERN = re.compile(r"[0-9]+")
-_FILENAMES: dict[str, int] = {}  # cache to keep track of filenames
+_FILENAMES: typing.Dict[str, int] = {}  # cache to keep track of filenames
 
 Func = typing.Callable[..., typing.Any]
 
@@ -111,9 +111,10 @@ def handle_remove_read_only(func: typing.Callable[[Path], None], path: Path, exc
         raise
 
 
-def remove_dir(p: Path) -> None:
+def remove_dir(p: Path, ignore_errors: typing.Optional[bool] = True) -> None:
     with _MUTEX:
         try:
             shutil.rmtree(p, ignore_errors=False, onerror=handle_remove_read_only)
-        except:
-            pass
+        except Exception as e:
+            if not ignore_errors:
+                raise e
